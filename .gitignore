@@ -108,6 +108,8 @@ buildNumber.properties
 src/main/resources/META-INF/create-schema.ddl
 src/main/resources/META-INF/drop-schema.ddl
 
+# persistence xml file
+src/main/resources/META-INF/persistence.xml
 
 
 # End of https://www.gitignore.io/api/java,maven,intellij
