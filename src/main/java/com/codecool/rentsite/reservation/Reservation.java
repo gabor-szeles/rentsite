@@ -8,9 +8,15 @@ public class Reservation implements Reviewable {
 
     private Integer id;
     private Integer userId;
-    private Integer ratableId;
+    private Integer rentableId;
     private Date rentFrom;
     private Date rentTo;
+
+
+    public Reservation(Date rentFrom, Date rentTo) {
+        this.rentFrom = rentFrom;
+        this.rentTo = rentTo;
+    }
 
     public Integer getId() {
         return id;
@@ -29,11 +35,11 @@ public class Reservation implements Reviewable {
     }
 
     public Integer getRatableId() {
-        return ratableId;
+        return rentableId;
     }
 
     public void setRatableId(Integer ratableId) {
-        this.ratableId = ratableId;
+        this.rentableId = ratableId;
     }
 
     public Date getRentFrom() {
