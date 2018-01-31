@@ -1,20 +1,32 @@
 package com.codecool.rentsite.user;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.codecool.rentsite.rentable.Rentable;
+import com.codecool.rentsite.review.Reviewable;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Reviewable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+//    @Column(nullable = false)
     private String firstName;
+//    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String username;
+//    @Column(nullable = false)
     private String password;
+//    @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Rentable> rentableSet = new HashSet<>();
 
     public User(){
     }
