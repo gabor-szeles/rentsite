@@ -1,5 +1,4 @@
 package com.codecool.rentsite.review;
 
-public interface Reviewable {
-
+public class UserReview {
 }
