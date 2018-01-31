@@ -2,6 +2,7 @@ package com.codecool.rentsite.user;
 
 import com.codecool.rentsite.rentable.Rentable;
 import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.review.Review;
 import com.codecool.rentsite.review.Reviewable;
 
 import javax.persistence.*;
@@ -36,6 +37,9 @@ public class User implements Reviewable {
 
     @OneToMany(mappedBy = "user")
     private Set<Rentable> rentableSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "author")
+    private Set<Review> reviews = new HashSet<>();
 
     public User(){
     }
