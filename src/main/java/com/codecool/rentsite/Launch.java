@@ -1,11 +1,13 @@
 package com.codecool.rentsite;
 
+import com.codecool.rentsite.review.Review;
 import com.codecool.rentsite.user.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.util.List;
 
 public class Launch {
 
@@ -13,13 +15,16 @@ public class Launch {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
         EntityManager em = emf.createEntityManager();
 
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
 
-        User user = new User("Matykó");
-        em.persist(user);
 
-        transaction.commit();
+        String query = "SELECT r FROM Review r";
+
+
+
+        Query query1 = em.createQuery(query);
+        List<Review> results = query1.getResultList();
+
+        System.out.println(results);
         em.close();
         emf.close();
     }

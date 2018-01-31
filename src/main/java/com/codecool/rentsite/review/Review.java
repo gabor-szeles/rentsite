@@ -21,24 +21,23 @@ public class Review {
     private User author;
 
     @Any(metaColumn = @Column(name = "review_type"))
-    @AnyMetaDef(idType = "long", metaType = "string",
+    @AnyMetaDef(idType = "int", metaType = "string",
             metaValues = {
                     @MetaValue(targetEntity = User.class, value = "user"),
                     @MetaValue(targetEntity = Reservation.class, value = "reservation")
             })
     @Cascade( { org.hibernate.annotations.CascadeType.ALL})
     @JoinColumn(name = "target_Id")
-    private Review review;
+    private Reviewable review;
 
     private int rate;
-    public Review(String description, User author, Review reviewable) {
+    public Review(String description, User author, Reviewable reviewable) {
         this.description = description;
         this.author = author;
         this.review = reviewable;
         this.rate = 0;
     }
 
-    public Review(){}
 
     public int getId() {
         return id;
@@ -73,11 +72,11 @@ public class Review {
         this.rate = rate;
     }
 
-    public Review getReview() {
+    public Reviewable getReview() {
         return review;
     }
 
-    public void setReview(Review review) {
+    public void setReview(Reviewable review) {
         this.review = review;
     }
 }
