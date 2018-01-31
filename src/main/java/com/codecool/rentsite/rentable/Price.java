@@ -1,7 +1,9 @@
 package com.codecool.rentsite.rentable;
 
+import javax.persistence.Embeddable;
 import java.util.Currency;
 
+@Embeddable
 public class Price {
 
     private int amount;
@@ -10,6 +12,9 @@ public class Price {
     public Price(int amount, Currency currency) {
         this.amount = amount;
         this.currency = currency;
+    }
+
+    public Price() {
     }
 
     public int getAmount() {
