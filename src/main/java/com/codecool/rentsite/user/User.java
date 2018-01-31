@@ -3,7 +3,7 @@ package com.codecool.rentsite.user;
 import com.codecool.rentsite.rentable.Rentable;
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.review.Review;
-import com.codecool.rentsite.review.Reviewable;
+import com.codecool.rentsite.review.UserReview;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User implements Reviewable {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,10 @@ public class User implements Reviewable {
     private Set<Rentable> rentableSet = new HashSet<>();
 
     @OneToMany(mappedBy = "author")
-    private Set<Review> reviews = new HashSet<>();
+    private Set<Review> writtenReviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserReview> recievedReviews = new HashSet<>();
 
     public User(){
     }
@@ -105,5 +108,13 @@ public class User implements Reviewable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<UserReview> getRecievedReviews() {
+        return recievedReviews;
+    }
+
+    public void setRecievedReviews(Set<UserReview> recievedReviews) {
+        this.recievedReviews = recievedReviews;
     }
 }
