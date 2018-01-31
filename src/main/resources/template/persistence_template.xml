@@ -15,6 +15,8 @@
         <class>com.codecool.rentsite.rentable.category.Category</class>
         <class>com.codecool.rentsite.rentable.category.ServiceCategory</class>
         <class>com.codecool.rentsite.rentable.category.ItemCategory</class>
+        <class>com.codecool.rentsite.reservation.Reservation</class>
+
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
