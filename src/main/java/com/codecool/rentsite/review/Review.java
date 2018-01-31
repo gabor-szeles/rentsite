@@ -1,19 +1,40 @@
 package com.codecool.rentsite.review;
 
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
+import org.hibernate.annotations.Any;
+import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.MetaValue;
 
+import javax.persistence.*;
+
+@Entity
 public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String description;
-    private User author;
-    private Reviewable reviewable;
-    private int targetId;
-    private int rate;
 
-    public Review(String description, User author, Reviewable reviewable) {
+    @ManyToOne
+    private User author;
+
+    @Any(metaColumn = @Column(name = "review_type"))
+    @AnyMetaDef(idType = "long", metaType = "string",
+            metaValues = {
+                    @MetaValue(targetEntity = User.class, value = "user"),
+                    @MetaValue(targetEntity = Reservation.class, value = "reservation")
+            })
+    @Cascade( { org.hibernate.annotations.CascadeType.ALL})
+    @JoinColumn(name = "target_Id")
+    private Review review;
+
+    private int rate;
+    public Review(String description, User author, Review reviewable) {
         this.description = description;
         this.author = author;
-        this.reviewable = reviewable;
+        this.review = reviewable;
         this.rate = 0;
     }
 
@@ -31,13 +52,6 @@ public class Review {
         return author;
     }
 
-    public Reviewable getReviewable() {
-        return reviewable;
-    }
-
-    public int getTargetId() {
-        return targetId;
-    }
 
     public int getRate() {
         return rate;
@@ -55,15 +69,15 @@ public class Review {
         this.author = author;
     }
 
-    public void setReviewable(Reviewable reviewable) {
-        this.reviewable = reviewable;
-    }
-
-    public void setTargetId(int targetId) {
-        this.targetId = targetId;
-    }
-
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
     }
 }
