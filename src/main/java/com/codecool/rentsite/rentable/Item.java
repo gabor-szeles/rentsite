@@ -12,9 +12,14 @@ public class Item extends Rentable {
     @ManyToOne
     private ItemCategory itemCategory;
 
+
+
     public Item(String name, User user, ItemCategory itemCategory) {
         super(name, user);
         this.itemCategory = itemCategory;
+    }
+
+    public Item() {
     }
 
 

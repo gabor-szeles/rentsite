@@ -16,4 +16,7 @@ public class ServiceCategory extends Category {
     public ServiceCategory(String name) {
         super(name);
     }
+
+    public ServiceCategory() {
+    }
 }

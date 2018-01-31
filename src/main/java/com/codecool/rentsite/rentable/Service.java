@@ -16,6 +16,9 @@ public class Service extends Rentable {
         this.serviceCategory = serviceCategory;
     }
 
+    public Service() {
+    }
+
     public ServiceCategory getServiceCategory() {
         return serviceCategory;
     }
