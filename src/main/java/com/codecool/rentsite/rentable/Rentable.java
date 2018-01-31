@@ -1,20 +1,42 @@
 package com.codecool.rentsite.rentable;
 
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
 
-public abstract class Rentable {
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Rentable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String name;
     private String description;
+
+    @ManyToOne
     private User user;
-    private Tag tag;
+
+    @ManyToMany(mappedBy = "rentableSet")
+    private Set<Tag> tagSet = new HashSet<>();
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "price")),
+            @AttributeOverride(name = "currency", column = @Column(name = "currency"))
+    })
     private Price price;
     private boolean available;
+
+    @OneToMany(mappedBy = "rentable")
+    private Set<Reservation> reservationSet = new HashSet<>();
 
     Rentable(String name, User user) {
         this.name = name;
         this.user = user;
+    }
+
+    public Rentable() {
     }
 
     public String getName() {
@@ -41,13 +63,6 @@ public abstract class Rentable {
         this.user = user;
     }
 
-    public Tag getTag() {
-        return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
 
     public Price getPrice() {
         return price;

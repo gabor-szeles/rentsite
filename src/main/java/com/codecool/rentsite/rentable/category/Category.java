@@ -1,9 +1,17 @@
 package com.codecool.rentsite.rentable.category;
 
-public abstract class Category {
+import javax.persistence.*;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String name;
+
+    public Category() {
+    }
 
     Category(String name) {
         this.name = name;

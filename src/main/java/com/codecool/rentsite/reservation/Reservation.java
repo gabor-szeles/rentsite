@@ -1,23 +1,37 @@
 package com.codecool.rentsite.reservation;
 
-import com.codecool.rentsite.review.Reviewable;
+import com.codecool.rentsite.rentable.Rentable;
+import com.codecool.rentsite.review.ReservationReview;
+import com.codecool.rentsite.review.Review;
+import com.codecool.rentsite.user.User;
 
+import javax.persistence.*;
 import java.util.Date;
 
 
+@Entity
+public class Reservation {
 
-public class Reservation implements Reviewable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
 
-    private Integer id;
-    private Integer userId;
-    private Integer rentableId;
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Rentable rentable;
     private Date rentFrom;
     private Date rentTo;
 
+    @OneToOne(mappedBy = "reservation")
+    private ReservationReview reservationReview;
 
     public Reservation(Date rentFrom, Date rentTo) {
         this.rentFrom = rentFrom;
         this.rentTo = rentTo;
+    }
+
+    public Reservation() {
     }
 
     public Integer getId() {
@@ -28,21 +42,6 @@ public class Reservation implements Reviewable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getRatableId() {
-        return rentableId;
-    }
-
-    public void setRatableId(Integer ratableId) {
-        this.rentableId = ratableId;
-    }
 
     public Date getRentFrom() {
         return rentFrom;
@@ -58,5 +57,29 @@ public class Reservation implements Reviewable {
 
     public void setRentTo(Date rentTo) {
         this.rentTo = rentTo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Rentable getRentable() {
+        return rentable;
+    }
+
+    public void setRentable(Rentable rentable) {
+        this.rentable = rentable;
+    }
+
+    public ReservationReview getReservationReview() {
+        return reservationReview;
+    }
+
+    public void setReservationReview(ReservationReview reservationReview) {
+        this.reservationReview = reservationReview;
     }
 }

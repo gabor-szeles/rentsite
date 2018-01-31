@@ -1,6 +1,14 @@
 package com.codecool.rentsite.user;
 
-import com.codecool.rentsite.review.Reviewable;
+import com.codecool.rentsite.rentable.Rentable;
+import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.review.Review;
+import com.codecool.rentsite.review.UserReview;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,15 +16,33 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User implements Reviewable {
+public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+//    @Column(nullable = false)
     private String firstName;
+//    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String username;
+//    @Column(nullable = false)
     private String password;
+//    @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Reservation> reservationSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Rentable> rentableSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "author")
+    private Set<Review> writtenReviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserReview> recievedReviews = new HashSet<>();
 
     public User(){
     }
@@ -82,5 +108,13 @@ public class User implements Reviewable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<UserReview> getRecievedReviews() {
+        return recievedReviews;
+    }
+
+    public void setRecievedReviews(Set<UserReview> recievedReviews) {
+        this.recievedReviews = recievedReviews;
     }
 }

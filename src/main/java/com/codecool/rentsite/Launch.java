@@ -1,11 +1,12 @@
 package com.codecool.rentsite;
 
-import com.codecool.rentsite.user.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import com.codecool.rentsite.review.Review;
+
+
+import javax.persistence.*;
+
+import java.util.List;
 
 public class Launch {
 
@@ -13,13 +14,15 @@ public class Launch {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
         EntityManager em = emf.createEntityManager();
 
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
 
-        User user = new User("Matykó");
-        em.persist(user);
+        String query = "SELECT r FROM ReservationReview r";
 
-        transaction.commit();
+
+
+        Query query1 = em.createQuery(query);
+        List<Review> results = query1.getResultList();
+
+        System.out.println(results);
         em.close();
         emf.close();
     }

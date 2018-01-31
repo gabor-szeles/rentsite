@@ -1,9 +1,21 @@
 package com.codecool.rentsite.rentable;
 
-public class Tag {
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity
+public class Tag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    private Set<Rentable> rentableSet = new HashSet<>();
+
+    public Tag() {
+    }
 
     public Tag(String name) {
         this.name = name;
