@@ -1,5 +1,7 @@
 package com.codecool.rentsite.reservation;
 
+import com.codecool.rentsite.review.Reviewable;
+
 import java.util.Date;
 
 
