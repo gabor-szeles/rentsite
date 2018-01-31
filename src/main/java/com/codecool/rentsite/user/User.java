@@ -1,6 +1,7 @@
 package com.codecool.rentsite.user;
 
 import com.codecool.rentsite.rentable.Rentable;
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.review.Reviewable;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class User implements Reviewable {
     private String password;
 //    @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Reservation> reservationSet = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Set<Rentable> rentableSet = new HashSet<>();

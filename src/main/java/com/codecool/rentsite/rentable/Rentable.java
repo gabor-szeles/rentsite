@@ -1,5 +1,6 @@
 package com.codecool.rentsite.rentable;
 
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public abstract class Rentable {
     })
     private Price price;
     private boolean available;
+
+    @OneToMany(mappedBy = "rentable")
+    private Set<Reservation> reservationSet = new HashSet<>();
 
     Rentable(String name, User user) {
         this.name = name;
