@@ -11,6 +11,7 @@ import org.apache.log4j.Level;
 
 
 import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Launch {
 
@@ -25,7 +26,7 @@ public class Launch {
         BasicConfigurator.configure();
 
 
-
         get("/", (Request req, Response res) -> new ThymeleafTemplateEngine().render(Controller.renderUsers(req, res)));
+
     }
 }

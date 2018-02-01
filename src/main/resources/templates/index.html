@@ -1,13 +1,29 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
 </head>
 <body>
 <div id="products" class="row list-group">
-    <div class="item col-xs-4 col-lg-4" th:each="value,iterStat : ${userList}">
-        <!--<p class="lead" th:text="${value.firstName}"></p>-->
-        <p class="lead" th:text="${value.email}"></p>
+    <!--<p class="lead" th:text="${value.firstName}"></p>-->
+    <div class="item col-xs-4 col-lg-4">
+        <h2>Users</h2>
+        <table class="table table-hover">
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>E-mail</th>
+            </tr>
+            <tr th:each="value,iterStat : ${userList}">
+                <td class="lead" th:text="${value.firstName}"></td>
+                <td class="lead" th:text="${value.lastName}"></td>
+                <td class="lead" th:text="${value.username}"></td>
+                <td class="lead" th:text="${value.password}"></td>
+                <td class="lead" th:text="${value.email}"></td>
+            </tr>
+        </table>
     </div>
 </div>
 </body>

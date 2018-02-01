@@ -5,6 +5,7 @@ import com.codecool.rentsite.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 
 @Entity
 public class Item extends Rentable {
