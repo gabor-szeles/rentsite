@@ -1,6 +1,6 @@
 package com.codecool.rentsite;
 
-import com.codecool.rentsite.com.codecool.rentsite.jdbc.JDBC;
+import com.codecool.rentsite.jdbc.JDBC;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
