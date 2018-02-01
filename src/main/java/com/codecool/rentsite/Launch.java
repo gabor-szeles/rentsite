@@ -1,22 +1,24 @@
 package com.codecool.rentsite;
 
 
-import com.codecool.rentsite.review.Review;
 import org.apache.log4j.BasicConfigurator;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 
-import javax.persistence.*;
-
-import java.util.List;
 
 import static spark.Spark.*;
 
 public class Launch {
 
     public static void main(String[] args) {
+        Logger.getLogger("org").setLevel(Level.INFO);
+        Logger.getLogger("akka").setLevel(Level.INFO);
+
+
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
@@ -24,6 +26,6 @@ public class Launch {
 
 
 
-        get("/", (Request req, Response res) -> new ThymeleafTemplateEngine().render(Controller.renderProducts(req, res)));
+        get("/", (Request req, Response res) -> new ThymeleafTemplateEngine().render(Controller.renderUsers(req, res)));
     }
 }
