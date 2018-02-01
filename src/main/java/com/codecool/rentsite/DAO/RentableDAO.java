@@ -1,5 +1,8 @@
 package com.codecool.rentsite.DAO;
 
+import com.codecool.rentsite.rentable.Item;
+import com.codecool.rentsite.rentable.Rentable;
+import com.codecool.rentsite.rentable.Service;
 import com.codecool.rentsite.user.User;
 
 import javax.persistence.EntityManager;
@@ -24,9 +27,15 @@ public class RentableDAO {
         return rentableDAOInstance;
     }
 
-    public List<User> executeQuery(){
-        TypedQuery<User> query = em.createNamedQuery("user.all",User.class);
-        List<User> result = query.getResultList();
-        return result;
+    public List<Item> executeItemQuery(){
+        TypedQuery<Item> itemQuery = em.createNamedQuery("item.all", Item.class);
+        List<Item> items = itemQuery.getResultList();
+        return items;
+    }
+
+    public List<Service> executeServiceQuery(){
+        TypedQuery<Service> serviceTypedQuery = em.createNamedQuery("service.all", Service.class);
+        List<Service> services = serviceTypedQuery.getResultList();
+        return services;
     }
 }
