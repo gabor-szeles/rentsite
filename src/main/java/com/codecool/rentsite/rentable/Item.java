@@ -6,8 +6,10 @@ import com.codecool.rentsite.user.User;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries(@NamedQuery(name = "item.all", query = "SELECT i FROM Item i "))
 public class Item extends Rentable {
 
     @ManyToOne
