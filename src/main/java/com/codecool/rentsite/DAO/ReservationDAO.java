@@ -1,5 +1,6 @@
 package com.codecool.rentsite.DAO;
 
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
 
 import javax.persistence.EntityManager;
@@ -24,9 +25,9 @@ public class ReservationDAO {
         return reservationDAOInstance;
     }
 
-    public List<User> executeQuery(){
-        TypedQuery<User> query = em.createNamedQuery("user.all",User.class);
-        List<User> result = query.getResultList();
+    public List<Reservation> executeQuery(){
+        TypedQuery<Reservation> query = em.createNamedQuery("reservation.all",Reservation.class);
+        List<Reservation> result = query.getResultList();
         return result;
     }
 
