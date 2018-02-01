@@ -10,6 +10,7 @@ import java.util.Date;
 
 
 @Entity
+@NamedQueries(@NamedQuery(name = "reservation.all", query = "SELECT s FROM Reservation s "))
 public class Reservation {
 
     @Id
@@ -32,6 +33,10 @@ public class Reservation {
     }
 
     public Reservation() {
+    }
+
+    public String getUserName(){
+        return this.user.getUsername();
     }
 
     public Integer getId() {
