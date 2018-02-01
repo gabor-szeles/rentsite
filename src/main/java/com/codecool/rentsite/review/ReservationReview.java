@@ -3,6 +3,8 @@ package com.codecool.rentsite.review;
 import com.codecool.rentsite.reservation.Reservation;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 @Entity
