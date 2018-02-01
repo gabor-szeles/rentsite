@@ -5,8 +5,11 @@ import com.codecool.rentsite.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries(@NamedQuery(name = "service.all", query = "SELECT s FROM Service s "))
 public class Service extends Rentable {
     @ManyToOne
     private ServiceCategory serviceCategory;

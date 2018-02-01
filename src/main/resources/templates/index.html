@@ -24,7 +24,52 @@
                 <td class="lead" th:text="${value.email}"></td>
             </tr>
         </table>
-    </div>
+        <h2>Items</h2>
+        <table class="table table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>User</th>
+                <th>Price</th>
+            </tr>
+            <tr th:each="value,iterStat : ${itemList}">
+                <td class="lead" th:text="${value.name}"></td>
+                <td class="lead" th:text="${value.description}"></td>
+                <td class="lead" th:text="${value.user.getUsername()}"></td>
+                <td class="lead" th:text="${value.price.getFullPrice()}"></td>
+            </tr>
+        </table>
+        <h2>Services</h2>
+        <table class="table table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>User</th>
+                <th>Price</th>
+            </tr>
+            <tr th:each="value,iterStat : ${serviceList}">
+                <td class="lead" th:text="${value.name}"></td>
+                <td class="lead" th:text="${value.description}"></td>
+                <td class="lead" th:text="${value.user.getUsername()}"></td>
+                <td class="lead" th:text="${value.price.getFullPrice()}"></td>
+            </tr>
+        </table>
+        <h2>Reservation</h2>
+        <table class="table table-hover">
+            <tr>
+                <th>User name</th>
+                <th>Rentable name</th>
+                <th>From date</th>
+                <th>To date</th>
+            </tr>
+            <tr th:each="value,iterStat : ${reservationList}">
+                <td class="lead" th:text="${value.user.getUsername()}"></td>
+                <td class="lead" th:text="${value.rentable.getName()}"></td>
+                <td class="lead" th:text="${value.rentFrom.toString()}"></td>
+                <td class="lead" th:text="${value.rentTo}"></td>
+            </tr>
+        </table>
+</div>
 </div>
 </body>
 </html>

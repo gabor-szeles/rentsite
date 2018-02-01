@@ -17,6 +17,10 @@ public class Price {
     public Price() {
     }
 
+    public String getFullPrice(){
+        return Integer.toString(this.getAmount()) + " " + this.getCurrency().toString();
+    }
+
     public int getAmount() {
         return amount;
     }
