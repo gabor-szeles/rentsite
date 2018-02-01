@@ -1,21 +1,22 @@
 package com.codecool.rentsite;
 
 import com.codecool.rentsite.jdbc.JDBC;
+import com.codecool.rentsite.user.User;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.jws.soap.SOAPBinding;
+import java.util.*;
 
 public class Controller {
 
     public static ModelAndView renderProducts(Request req, Response res) {
         Map params = new HashMap();
-        JDBC jdbc = new JDBC();
-        List returnValues = jdbc.getReturnValues();
-        params.put("values", returnValues);
+        JDBC jdbc = JDBC.getInstance();
+        List<User> returnValues = jdbc.executeQuery();
+        params.put("userList", returnValues);
+        System.out.println("HEREEEEEEEEEE: " + returnValues.get(0).getEmail());
         return new ModelAndView(params, "/index");
     }
 }
