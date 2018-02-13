@@ -1,19 +1,27 @@
 package com.codecool.rentsite;
 
-import com.codecool.rentsite.DAO.UserDao;
+import com.codecool.rentsite.user.User;
+import com.codecool.rentsite.user.UserDao;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.Map;
 
 public class SessionHandling {
 
     public final static int guestId = 0;
+    private final UserDao userDao;
 
 
-    public static void register(String username, String password, String email){
+    public SessionHandling(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public void register(String username, String password, String email){
         if(username.length() > 4 || password.length() > 4) {
-            UserDao.addUser(username, password, email);
+            userDao.add(username, password, email);
         }
 
     }
