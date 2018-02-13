@@ -14,8 +14,8 @@ public class Service extends Rentable {
     @ManyToOne
     private ServiceCategory serviceCategory;
 
-    public Service(String name, User user, ServiceCategory serviceCategory) {
-        super(name, user);
+    public Service(String name, User user, Price price, ServiceCategory serviceCategory) {
+        super(name, user, price);
         this.serviceCategory = serviceCategory;
     }
 

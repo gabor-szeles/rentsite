@@ -17,8 +17,8 @@ public class Item extends Rentable {
 
 
 
-    public Item(String name, User user, ItemCategory itemCategory) {
-        super(name, user);
+    public Item(String name, User user, Price price, ItemCategory itemCategory) {
+        super(name, user, price);
         this.itemCategory = itemCategory;
     }
 

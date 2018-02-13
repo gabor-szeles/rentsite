@@ -26,14 +26,26 @@ public abstract class Rentable {
             @AttributeOverride(name = "currency", column = @Column(name = "currency"))
     })
     private Price price;
-    private boolean available;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToMany(mappedBy = "rentable")
     private Set<Reservation> reservationSet = new HashSet<>();
 
-    Rentable(String name, User user) {
+    Rentable(String name, User user, Price price) {
         this.name = name;
         this.user = user;
+        this.price = price;
+        this.status = Status.AVAILABLE;
     }
 
     public Rentable() {
@@ -70,13 +82,5 @@ public abstract class Rentable {
 
     public void setPrice(Price price) {
         this.price = price;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
     }
 }
