@@ -11,22 +11,16 @@ import java.util.List;
 
 public class ReservationDAO {
 
-    private static ReservationDAO reservationDAOInstance = null;
 
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
-    private final EntityManager em = emf.createEntityManager();
+    private EntityManager entityManager;
 
-    private ReservationDAO(){}
-
-    public static ReservationDAO getInstance() {
-        if(reservationDAOInstance == null) {
-            reservationDAOInstance = new ReservationDAO();
-        }
-        return reservationDAOInstance;
+    public ReservationDAO(EntityManagerFactory emf){
+        this.entityManager = emf.createEntityManager();
     }
 
+
     public List<Reservation> executeQuery(){
-        TypedQuery<Reservation> query = em.createNamedQuery("reservation.all",Reservation.class);
+        TypedQuery<Reservation> query = entityManager.createNamedQuery("reservation.all",Reservation.class);
         List<Reservation> result = query.getResultList();
         return result;
     }

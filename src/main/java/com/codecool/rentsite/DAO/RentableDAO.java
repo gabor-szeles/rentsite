@@ -13,28 +13,21 @@ import java.util.List;
 
 public class RentableDAO {
 
-    private static RentableDAO rentableDAOInstance = null;
 
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
-    private final EntityManager em = emf.createEntityManager();
+    private EntityManager entityManager;
 
-    private RentableDAO(){}
-
-    public static RentableDAO getInstance() {
-        if(rentableDAOInstance == null) {
-            rentableDAOInstance = new RentableDAO();
-        }
-        return rentableDAOInstance;
+    public RentableDAO(EntityManagerFactory emf){
+        this.entityManager = emf.createEntityManager();
     }
 
     public List<Item> executeItemQuery(){
-        TypedQuery<Item> itemQuery = em.createNamedQuery("item.all", Item.class);
+        TypedQuery<Item> itemQuery = entityManager.createNamedQuery("item.all", Item.class);
         List<Item> items = itemQuery.getResultList();
         return items;
     }
 
     public List<Service> executeServiceQuery(){
-        TypedQuery<Service> serviceTypedQuery = em.createNamedQuery("service.all", Service.class);
+        TypedQuery<Service> serviceTypedQuery = entityManager.createNamedQuery("service.all", Service.class);
         List<Service> services = serviceTypedQuery.getResultList();
         return services;
     }

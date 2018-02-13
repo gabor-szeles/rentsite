@@ -11,15 +11,19 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.*;
 
 public class Controller {
+    private final static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
 
     public static ModelAndView renderUsers(Request req, Response res) {
+
         Map params = new HashMap();
-        UserDao userDao = UserDao.getInstance();
-        RentableDAO rentableDAO = RentableDAO.getInstance();
-        ReservationDAO reservationDAO = ReservationDAO.getInstance();
+        UserDao userDao = new UserDao(ENTITY_MANAGER_FACTORY);
+        RentableDAO rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
+        ReservationDAO reservationDAO = new ReservationDAO(ENTITY_MANAGER_FACTORY);
 
         List<Item> items = rentableDAO.executeItemQuery();
         List<Service> services = rentableDAO.executeServiceQuery();

@@ -10,22 +10,14 @@ import java.util.List;
 
 public class UserDao {
 
-    private static UserDao userDaoInstance  = null;
+    private EntityManager entityManager;
 
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
-    private final EntityManager em = emf.createEntityManager();
-
-    private UserDao(){}
-
-    public static UserDao getInstance() {
-        if(userDaoInstance == null) {
-            userDaoInstance = new UserDao();
-        }
-        return userDaoInstance;
+    public UserDao(EntityManagerFactory emf){
+        this.entityManager = emf.createEntityManager();
     }
 
     public List<User> executeQuery(){
-        TypedQuery<User> query = em.createNamedQuery("user.all",User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("user.all",User.class);
         List<User> result = query.getResultList();
         return result;
     }

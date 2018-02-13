@@ -31,9 +31,10 @@ public abstract class Rentable {
     @OneToMany(mappedBy = "rentable")
     private Set<Reservation> reservationSet = new HashSet<>();
 
-    Rentable(String name, User user) {
+    Rentable(String name, User user, Price price) {
         this.name = name;
         this.user = user;
+        this.price = price;
     }
 
     public Rentable() {
