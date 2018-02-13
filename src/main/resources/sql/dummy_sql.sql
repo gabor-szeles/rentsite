@@ -13,11 +13,11 @@ INSERT INTO tag VALUES (2, 'Catbus');
 INSERT INTO tag VALUES (3, 'Laptop');
 INSERT INTO tag VALUES (4, '4fun');
 
-INSERT INTO item VALUES (1, TRUE, 'its a good lappy', 'MSI EX600', '1000', 'HUF', 1, 1);
-INSERT INTO item VALUES (2, TRUE, 'Its the catbus from totoro', 'Catbus', '9999', 'JPY', 3, 2);
+INSERT INTO item VALUES (1, 'its a good lappy', 'MSI EX600', '1000', 'HUF', 'AVAILABLE', 1, 1);
+INSERT INTO item VALUES (2, 'Its the catbus from totoro', 'Catbus', '9999', 'JPY', 'AVAILABLE', 3, 2);
 
-INSERT INTO service VALUES (3, TRUE,  'Swat your enemies lol', 'SWATting', '1000', 'USD', 2, 4);
-INSERT INTO service VALUES (4, TRUE,  'U know what I mean lel', 'Maid service', '999999', 'HUF', 4, 3);
+INSERT INTO service VALUES (3, 'Swat your enemies lol', 'SWATting', '1000', 'USD', 'AVAILABLE', 2, 4);
+INSERT INTO service VALUES (4, 'U know what I mean lel', 'Maid service', '999999', 'HUF', 'AVAILABLE', 4, 3);
 
 INSERT INTO tag_rentable VALUES (2, 2);
 INSERT INTO tag_rentable VALUES (3, 1);
