@@ -28,14 +28,7 @@ public class Launch {
 
         get("/", (Request req, Response res) -> new ThymeleafTemplateEngine().render(Controller.renderUsers(req, res)));
 
-        post("/register", (Request req, Response res) ->{
-            String username = req.queryParams("username");
-            String password = req.queryParams("password");
-            String email = req.queryParams("email");
-            SessionHandling.register(username, password, email);
-            res.redirect("/");
-            return "registered";
-        });
+        post("/register", Controller::register);
 
 
 
