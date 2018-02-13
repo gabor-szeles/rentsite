@@ -27,7 +27,7 @@ public class Reservation {
     @OneToOne(mappedBy = "reservation")
     private ReservationReview reservationReview;
 
-    public Reservation(Date rentFrom, Date rentTo) {
+    public Reservation(User user, Date rentFrom, Date rentTo) {
         this.rentFrom = rentFrom;
         this.rentTo = rentTo;
     }
