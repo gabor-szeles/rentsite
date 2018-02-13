@@ -26,7 +26,7 @@ public class Launch {
         BasicConfigurator.configure();
 
 
-        get("/", (Request req, Response res) -> new ThymeleafTemplateEngine().render(Controller.renderUsers(req, res)));
+        get("/", Controller::renderUsers);
 
     }
 }
