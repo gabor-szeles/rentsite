@@ -3,6 +3,7 @@ package com.codecool.rentsite.rentable;
 import com.codecool.rentsite.rentable.Item;
 import com.codecool.rentsite.rentable.Rentable;
 import com.codecool.rentsite.rentable.Service;
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
 
 import javax.persistence.EntityManager;
@@ -30,13 +31,25 @@ public class RentableDAO implements RentableDAOInterface {
     @Override
     public List<Rentable> getAll() {
         List<Rentable> resultList = new ArrayList<>();
-        TypedQuery<Item> itemQuery = entityManager.createNamedQuery("item.all", Item.class);
-        List<Item> items = itemQuery.getResultList();
+        List<Item> items = getAllItems();
         resultList.addAll(items);
-        TypedQuery<Service> serviceTypedQuery = entityManager.createNamedQuery("service.all", Service.class);
-        List<Service> services = serviceTypedQuery.getResultList();
+        List<Service> services = getAllServices();
         resultList.addAll(services);
         return resultList;
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+        TypedQuery<Item> itemQuery = entityManager.createNamedQuery("item.all", Item.class);
+        List<Item> items = itemQuery.getResultList();
+        return items;
+    }
+
+    @Override
+    public List<Service> getAllServices() {
+        TypedQuery<Service> serviceTypedQuery = entityManager.createNamedQuery("service.all", Service.class);
+        List<Service> services = serviceTypedQuery.getResultList();
+        return services;
     }
 
     @Override
@@ -46,6 +59,11 @@ public class RentableDAO implements RentableDAOInterface {
 
     @Override
     public List<Rentable> getByServiceCategory(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> getRented(String status) {
         return null;
     }
 }
