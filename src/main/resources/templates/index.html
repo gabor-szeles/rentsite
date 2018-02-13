@@ -4,27 +4,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
 </head>
 <body>
-<div id="products" class="row list-group">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="navbar header">
+        <a href="/">RentSite</a>
+    </div>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" id="registration" data-toggle="modal" data-target="#registration_modal" href="">Registration</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="login" data-toggle="modal" data-target="#login_modal" href="">Login</a>
+        </li>
+    </ul>
+</nav>
+<div id="products" class="container">
     <!--<p class="lead" th:text="${value.firstName}"></p>-->
-    <div class="item col-xs-4 col-lg-4">
-        <h2>Users</h2>
-        <table class="table table-hover">
-            <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>E-mail</th>
-            </tr>
-            <tr th:each="value,iterStat : ${userList}">
-                <td class="lead" th:text="${value.firstName}"></td>
-                <td class="lead" th:text="${value.lastName}"></td>
-                <td class="lead" th:text="${value.username}"></td>
-                <td class="lead" th:text="${value.password}"></td>
-                <td class="lead" th:text="${value.email}"></td>
-            </tr>
-        </table>
-        <h2>Items and Services</h2>
+    <div class="item col ">
+        <h2>Rentables</h2>
         <table class="table table-hover">
             <tr>
                 <th>Name</th>
@@ -39,22 +35,31 @@
                 <td class="lead" th:text="${value.price.getFullPrice()}"></td>
             </tr>
         </table>
-        <h2>Reservation</h2>
-        <table class="table table-hover">
-            <tr>
-                <th>User name</th>
-                <th>Rentable name</th>
-                <th>From date</th>
-                <th>To date</th>
-            </tr>
-            <tr th:each="value,iterStat : ${reservationList}">
-                <td class="lead" th:text="${value.user.getUsername()}"></td>
-                <td class="lead" th:text="${value.rentable.getName()}"></td>
-                <td class="lead" th:text="${value.rentFrom.toString()}"></td>
-                <td class="lead" th:text="${value.rentTo}"></td>
-            </tr>
-        </table>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        v
+        <p>UJSOR</p>
+        v
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        v
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        <p>UJSOR</p>
+        v
+        <p>UJSOR</p>
+
 </div>
 </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
 </html>
