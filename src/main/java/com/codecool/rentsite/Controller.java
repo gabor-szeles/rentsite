@@ -26,7 +26,7 @@ public class Controller {
         RentableDAO rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
         ReservationDAO reservationDAO = new ReservationDAO(ENTITY_MANAGER_FACTORY);
 
-        List<Reservation> reservations = reservationDAO.executeQuery();
+        List<Reservation> reservations = reservationDAO.getAll();
         List<User> returnValues = userDao.executeQuery();
         List<Rentable> rentableList = rentableDAO.getAll();
 
