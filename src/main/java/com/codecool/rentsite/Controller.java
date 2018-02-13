@@ -11,6 +11,7 @@ import com.codecool.rentsite.user.User;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,7 +20,7 @@ import java.util.*;
 public class Controller {
     private final static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
 
-    public static ModelAndView renderUsers(Request req, Response res) {
+    public static String renderUsers(Request req, Response res) {
 
         Map params = new HashMap();
         UserDao userDao = new UserDao(ENTITY_MANAGER_FACTORY);
@@ -33,6 +34,10 @@ public class Controller {
         params.put("userList", returnValues);
         params.put("reservationList", reservations);
         params.put("rentableList", rentableList);
-        return new ModelAndView(params, "/index");
+        return renderTemplate(params, "index");
+    }
+
+    public static String renderTemplate(Map model, String template) {
+        return new ThymeleafTemplateEngine().render(new ModelAndView(model, template));
     }
 }
