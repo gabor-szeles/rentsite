@@ -1,4 +1,4 @@
-package com.codecool.rentsite.DAO;
+package com.codecool.rentsite.rentable;
 
 import com.codecool.rentsite.rentable.Item;
 import com.codecool.rentsite.rentable.Rentable;
@@ -9,9 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
-public class RentableDAO {
+public class RentableDAO implements RentableDAOInterface {
 
 
     private EntityManager entityManager;
@@ -20,15 +21,31 @@ public class RentableDAO {
         this.entityManager = emf.createEntityManager();
     }
 
-    public List<Item> executeItemQuery(){
-        TypedQuery<Item> itemQuery = entityManager.createNamedQuery("item.all", Item.class);
-        List<Item> items = itemQuery.getResultList();
-        return items;
+
+    @Override
+    public Rentable find(int id) {
+        return null;
     }
 
-    public List<Service> executeServiceQuery(){
+    @Override
+    public List<Rentable> getAll() {
+        List<Rentable> resultList = new ArrayList<>();
+        TypedQuery<Item> itemQuery = entityManager.createNamedQuery("item.all", Item.class);
+        List<Item> items = itemQuery.getResultList();
+        resultList.addAll(items);
         TypedQuery<Service> serviceTypedQuery = entityManager.createNamedQuery("service.all", Service.class);
         List<Service> services = serviceTypedQuery.getResultList();
-        return services;
+        resultList.addAll(services);
+        return resultList;
+    }
+
+    @Override
+    public List<Rentable> getByItemCategory(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Rentable> getByServiceCategory(int id) {
+        return null;
     }
 }
