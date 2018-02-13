@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class ReservationDAO {
+public class ReservationDAO implements ReservationDAOInterface {
 
 
     private EntityManager entityManager;
@@ -19,10 +19,20 @@ public class ReservationDAO {
     }
 
 
-    public List<Reservation> executeQuery(){
+    @Override
+    public Reservation find(int id) {
+        return null;
+    }
+
+    @Override
+    public Reservation add() {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> getAll() {
         TypedQuery<Reservation> query = entityManager.createNamedQuery("reservation.all",Reservation.class);
         List<Reservation> result = query.getResultList();
         return result;
     }
-
 }
