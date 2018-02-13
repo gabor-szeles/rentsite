@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class UserDao {
+public class UserDao implements UserDAOInterface {
 
     private EntityManager entityManager;
 
@@ -20,5 +20,15 @@ public class UserDao {
         TypedQuery<User> query = entityManager.createNamedQuery("user.all",User.class);
         List<User> result = query.getResultList();
         return result;
+    }
+
+    @Override
+    public User add() {
+        return null;
+    }
+
+    @Override
+    public User find(int id) {
+        return null;
     }
 }
