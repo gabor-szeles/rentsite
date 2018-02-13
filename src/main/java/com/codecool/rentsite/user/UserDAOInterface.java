@@ -1,4 +1,4 @@
-package com.codecool.rentsite.DAO;
+package com.codecool.rentsite.user;
 
 public interface UserDAOInterface {
 }

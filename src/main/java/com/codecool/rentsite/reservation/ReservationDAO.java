@@ -1,4 +1,4 @@
-package com.codecool.rentsite.DAO;
+package com.codecool.rentsite.reservation;
 
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
