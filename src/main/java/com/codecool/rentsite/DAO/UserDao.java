@@ -13,7 +13,7 @@ public class UserDao {
     private static UserDao userDaoInstance  = null;
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
-    private final EntityManager em = emf.createEntityManager();
+    private static final EntityManager em = emf.createEntityManager();
 
     private UserDao(){}
 
@@ -22,6 +22,17 @@ public class UserDao {
             userDaoInstance = new UserDao();
         }
         return userDaoInstance;
+    }
+
+    public static void addUser(String username, String password, String email){
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
     }
 
     public List<User> executeQuery(){
