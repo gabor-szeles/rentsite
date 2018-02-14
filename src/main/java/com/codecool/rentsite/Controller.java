@@ -4,14 +4,14 @@ import com.codecool.rentsite.rentable.Rentable;
 import com.codecool.rentsite.rentable.RentableDAO;
 import com.codecool.rentsite.reservation.ReservationDAO;
 import com.codecool.rentsite.user.UserDao;
-import com.codecool.rentsite.rentable.Item;
-import com.codecool.rentsite.rentable.Service;
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
+import com.codecool.rentsite.user.UserService;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.*;
@@ -19,7 +19,8 @@ import java.util.*;
 public class Controller {
     private final static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
     private final static UserDao USER_DAO = new UserDao(ENTITY_MANAGER_FACTORY);
-
+    private final static UserService USER_SERVICE = new UserService(ENTITY_MANAGER_FACTORY, USER_DAO);
+    private final static EntityManager ENTITY_MANAGER = ENTITY_MANAGER_FACTORY.createEntityManager();
     public static ModelAndView renderUsers(Request req, Response res) {
 
         Map params = new HashMap();
@@ -38,14 +39,11 @@ public class Controller {
     }
 
     public static String register(Request request, Response response) {
-        String username = request.queryParams("username");
-        String password = request.queryParams("password");
-        String email = request.queryParams("email");
-        String firstName = request.queryParams("firstname");
-        String lastName = request.queryParams("lastname");
-        SessionHandling sessionHandling = new SessionHandling(USER_DAO);
-        sessionHandling.register(username, password, email, firstName, lastName);
-        response.redirect("/");
-        return "registered";
+        return USER_SERVICE.register(request, response);
+    }
+
+    public static String login(Request request, Response response){
+        SessionHandling.recognizeClient(request, response);
+        return USER_SERVICE.login(request, response, ENTITY_MANAGER);
     }
 }
