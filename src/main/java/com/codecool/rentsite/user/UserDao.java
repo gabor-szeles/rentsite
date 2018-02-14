@@ -21,11 +21,13 @@ public class UserDao implements UserDAOInterface {
     }
 
     @Override
-    public void add(String username, String password, String email) {
+    public void add(String username, String password, String email, String firstName, String lastName) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
 
         entityManager.getTransaction().begin();
         entityManager.persist(user);
