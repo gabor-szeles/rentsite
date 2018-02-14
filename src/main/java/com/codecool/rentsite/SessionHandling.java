@@ -7,6 +7,7 @@ import spark.Response;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.util.Map;
 
 public class SessionHandling {
@@ -58,12 +59,14 @@ public class SessionHandling {
     }
     */
 
-    public static boolean checkLogin(String dbpassword, String password){
+    public static boolean login(String dbpassword, String password){
 
         if(dbpassword.equals(password)){
             return true;
         }
         return false;
     }
+
+
 
 }
