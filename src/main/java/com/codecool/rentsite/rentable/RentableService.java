@@ -44,6 +44,10 @@ public class RentableService {
                 break;
             case "allservices":
                 resultList = rentableDAO.getAllServices();
+                break;
+            case "status":
+                resultList = rentableDAO.getRented(idNumber);
+                break;
         }
         return resultList;
     }
