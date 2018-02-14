@@ -41,8 +41,10 @@ public class Controller {
         String username = request.queryParams("username");
         String password = request.queryParams("password");
         String email = request.queryParams("email");
+        String firstName = request.queryParams("firstname");
+        String lastName = request.queryParams("lastname");
         SessionHandling sessionHandling = new SessionHandling(USER_DAO);
-        sessionHandling.register(username, password, email);
+        sessionHandling.register(username, password, email, firstName, lastName);
         response.redirect("/");
         return "registered";
     }
