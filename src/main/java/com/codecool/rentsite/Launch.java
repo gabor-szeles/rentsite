@@ -24,6 +24,7 @@ public class Launch {
 
 
         get("/", Controller::renderRentables);
+        post("/filter", Controller::renderFilteredIndex);
 
     }
 }
