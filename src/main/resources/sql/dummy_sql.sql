@@ -1,4 +1,4 @@
-INSERT INTO users VALUES (1, 'matyko@matyimail.com', 'Matyi', 'Gyuli', '12345', 'Matyko');
+INSERT INTO users VALUES (1, 'matyko@matyimail.com', 'Matyi', 'Gyuli', '12345', 'matyko');
 INSERT INTO users VALUES (2, 'gyuli@gymail.com', 'Gyuli', 'Matyi', '12345', 'Gyuli');
 INSERT INTO users VALUES (3, 'hmiyazaki@ghibli.jp', 'Hayao', 'Miyazaki', '12345', 'hmiyazaki');
 INSERT INTO users VALUES (4, 'meszarosl@freemail.hu', 'Lőrinc', 'Mészáros', '12345', 'lolo_m');
