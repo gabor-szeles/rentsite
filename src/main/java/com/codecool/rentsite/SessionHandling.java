@@ -19,9 +19,9 @@ public class SessionHandling {
         this.userDao = userDao;
     }
 
-    public void register(String username, String password, String email){
+    public void register(String username, String password, String email, String firstName, String lastName){
         if(username.length() > 4 || password.length() > 4) {
-            userDao.add(username, password, email);
+            userDao.add(username, password, email, firstName, lastName);
         }
 
     }
