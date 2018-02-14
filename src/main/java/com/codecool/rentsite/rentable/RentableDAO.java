@@ -53,17 +53,42 @@ public class RentableDAO implements RentableDAOInterface {
     }
 
     @Override
-    public List<Rentable> getByItemCategory(int id) {
-        return null;
+    public List<Item> getByItemCategory(int id) {
+        TypedQuery<Item> itemTypedQuery = entityManager.createNamedQuery("item.getByItemCategory", Item.class);
+        itemTypedQuery.setParameter("categoryId", id);
+        List<Item> resultList = itemTypedQuery.getResultList();
+        return resultList;
     }
 
     @Override
-    public List<Rentable> getByServiceCategory(int id) {
-        return null;
+    public List<Service> getByServiceCategory(int id) {
+        TypedQuery<Service> serviceTypedQuery = entityManager.createNamedQuery("service.getByServiceCategory", Service.class);
+        serviceTypedQuery.setParameter("categoryId", id);
+        List<Service> resultList = serviceTypedQuery.getResultList();
+        return resultList;
     }
 
     @Override
-    public List<Reservation> getRented(String status) {
-        return null;
+    public List<Rentable> getRented(int status) {
+        List<Rentable> resultList = new ArrayList<>();
+        TypedQuery<Item> statusItemsTypedQuery = entityManager.createNamedQuery("item.getByStatus", Item.class);
+        TypedQuery<Service> statusServicesTypedQuery = entityManager.createNamedQuery("service.getByStatus", Service.class);
+        switch (status){
+            case 1:
+                statusItemsTypedQuery.setParameter("status", Status.AVAILABLE);
+                statusServicesTypedQuery.setParameter("status", Status.AVAILABLE);
+                break;
+            case 2:
+                statusItemsTypedQuery.setParameter("status", Status.RENTED);
+                statusServicesTypedQuery.setParameter("status", Status.RENTED);
+                break;
+            case 3:
+                statusItemsTypedQuery.setParameter("status", Status.DAMAGED);
+                statusServicesTypedQuery.setParameter("status", Status.DAMAGED);
+                break;
+        }
+        resultList.addAll(statusItemsTypedQuery.getResultList());
+        resultList.addAll(statusServicesTypedQuery.getResultList());
+        return resultList;
     }
 }
