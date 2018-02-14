@@ -1,11 +1,8 @@
 package com.codecool.rentsite;
 
-import com.codecool.rentsite.rentable.Rentable;
-import com.codecool.rentsite.rentable.RentableDAO;
+import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.reservation.ReservationDAO;
 import com.codecool.rentsite.user.UserDao;
-import com.codecool.rentsite.rentable.Item;
-import com.codecool.rentsite.rentable.Service;
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
 import spark.ModelAndView;
@@ -18,22 +15,16 @@ import javax.persistence.Persistence;
 import java.util.*;
 
 public class Controller {
-    private final static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
+    private final static EntityManagerFactory ENTITY_MANAGER_FACTORY;
+    private static RentableService rentableService;
 
-    public static String renderUsers(Request req, Response res) {
+    static {
+        ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
+        rentableService = new RentableService(ENTITY_MANAGER_FACTORY);
+    }
 
-        Map params = new HashMap();
-        UserDao userDao = new UserDao(ENTITY_MANAGER_FACTORY);
-        RentableDAO rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
-        ReservationDAO reservationDAO = new ReservationDAO(ENTITY_MANAGER_FACTORY);
-
-        List<Reservation> reservations = reservationDAO.getAll();
-        List<User> returnValues = userDao.executeQuery();
-        List<Rentable> rentableList = rentableDAO.getAll();
-
-        params.put("userList", returnValues);
-        params.put("reservationList", reservations);
-        params.put("rentableList", rentableList);
+    public static String renderRentables(Request req, Response res) {
+        Map<String, List<Rentable>> params = rentableService.getAllRentables();
         return renderTemplate(params, "index");
     }
 

@@ -2,9 +2,6 @@ package com.codecool.rentsite;
 
 
 import org.apache.log4j.BasicConfigurator;
-import spark.Request;
-import spark.Response;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
 
@@ -26,7 +23,7 @@ public class Launch {
         BasicConfigurator.configure();
 
 
-        get("/", Controller::renderUsers);
+        get("/", Controller::renderRentables);
 
     }
 }
