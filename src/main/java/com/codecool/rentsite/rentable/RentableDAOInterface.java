@@ -12,5 +12,5 @@ public interface RentableDAOInterface {
     List<Service> getAllServices();
     List<Item> getByItemCategory(int id);
     List<Service> getByServiceCategory(int id);
-    List<Reservation> getRented(String status);
+    List<Rentable> getRented(int status);
 }

@@ -69,7 +69,26 @@ public class RentableDAO implements RentableDAOInterface {
     }
 
     @Override
-    public List<Reservation> getRented(String status) {
-        return null;
+    public List<Rentable> getRented(int status) {
+        List<Rentable> resultList = new ArrayList<>();
+        TypedQuery<Item> statusItemsTypedQuery = entityManager.createNamedQuery("item.getByStatus", Item.class);
+        TypedQuery<Service> statusServicesTypedQuery = entityManager.createNamedQuery("service.getByStatus", Service.class);
+        switch (status){
+            case 1:
+                statusItemsTypedQuery.setParameter("status", Status.AVAILABLE);
+                statusServicesTypedQuery.setParameter("status", Status.AVAILABLE);
+                break;
+            case 2:
+                statusItemsTypedQuery.setParameter("status", Status.RENTED);
+                statusServicesTypedQuery.setParameter("status", Status.RENTED);
+                break;
+            case 3:
+                statusItemsTypedQuery.setParameter("status", Status.DAMAGED);
+                statusServicesTypedQuery.setParameter("status", Status.DAMAGED);
+                break;
+        }
+        resultList.addAll(statusItemsTypedQuery.getResultList());
+        resultList.addAll(statusServicesTypedQuery.getResultList());
+        return resultList;
     }
 }
