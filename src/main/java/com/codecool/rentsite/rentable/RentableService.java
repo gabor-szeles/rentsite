@@ -36,6 +36,14 @@ public class RentableService {
             case "item":
                 resultList = rentableDAO.getByItemCategory(idNumber);
                 break;
+            case "allitems":
+                resultList = rentableDAO.getAllItems();
+                break;
+            case "service":
+                resultList = rentableDAO.getByServiceCategory(idNumber);
+                break;
+            case "allservices":
+                resultList = rentableDAO.getAllServices();
         }
         return resultList;
     }

@@ -62,7 +62,10 @@ public class RentableDAO implements RentableDAOInterface {
 
     @Override
     public List<Service> getByServiceCategory(int id) {
-        return null;
+        TypedQuery<Service> serviceTypedQuery = entityManager.createNamedQuery("service.getByServiceCategory", Service.class);
+        serviceTypedQuery.setParameter("categoryId", id);
+        List<Service> resultList = serviceTypedQuery.getResultList();
+        return resultList;
     }
 
     @Override
