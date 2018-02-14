@@ -16,11 +16,13 @@ import java.util.*;
 
 public class Controller {
     private final static EntityManagerFactory ENTITY_MANAGER_FACTORY;
+    private static RentableDAO rentableDAO;
     private static RentableService rentableService;
 
     static {
         ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
-        rentableService = new RentableService(ENTITY_MANAGER_FACTORY);
+        rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
+        rentableService = new RentableService(rentableDAO);
     }
 
     public static String renderRentables(Request req, Response res) {
