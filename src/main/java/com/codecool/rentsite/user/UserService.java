@@ -8,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
 import com.codecool.rentsite.reservation.Reservation;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import spark.Request;
 import spark.Response;
 
@@ -28,15 +29,25 @@ public class UserService {
         String email = request.queryParams("email");
         String firstName = request.queryParams("firstname");
         String lastName = request.queryParams("lastname");
+        if (checkRegistrationDetails(username, password, email, firstName, lastName)){
+            response.redirect("/");
+            return "u fuked up m8";
+            //TODO notify the user about the issue
+        }
         SessionHandling sessionHandling = new SessionHandling(USER_DAO);
         try {
             sessionHandling.register(username, password, email, firstName, lastName);
         } catch (Exception e) {
+            System.out.println(e);
             return "User already exists";
-            //TODO Error mesage in modal
+            //TODO Error message in modal
         }
         response.redirect("/");
         return "Registered";
+    }
+
+    public boolean checkRegistrationDetails(String username, String password, String email, String firstname, String lastname){
+        return (username.length() < 4 || password.length() < 4 || email.length() < 4 || firstname.length() < 1 || lastname.length() < 2);
     }
 
     public String login(Request request, Response response, EntityManager entityManager) {
