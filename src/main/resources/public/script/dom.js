@@ -6,6 +6,7 @@ $(document).ready(function () {
             eventApplier.addEventToItemToggle();
             eventApplier.addEventToServiceToggle();
             eventApplier.addEventToFilterButtons();
+            eventApplier.addEventToStatusToggle();
         }
 
     };
@@ -23,6 +24,10 @@ $(document).ready(function () {
         filter: function (event) {
             let id = $(event.target).attr("id");
             ajax.refreshIndex(id);
+        },
+
+        toggleStatusCategories: function () {
+           $("#statusButtons").slideToggle();
         },
 
         buildFilteredTable: function (response) {
@@ -61,6 +66,10 @@ $(document).ready(function () {
 
         addEventToFilterButtons: function () {
             $(".btn-secondary").click(events.filter);
+        },
+
+        addEventToStatusToggle: function () {
+            $("#toggleStatuses").click(events.toggleStatusCategories);
         }
 
     };
