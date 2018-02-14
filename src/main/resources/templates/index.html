@@ -21,62 +21,67 @@
             </ul>
         </nav>
 
-        <aside class="col-2">
-            <!-- ItemCategories -->
-            <button id="toggleItems" class="btn btn-primary">Item categories</button>
-            <ul id="itemButtons" style="display: none">
-                <li th:each="item,iterStat:${itemCategories}">
-                    <button class="btn btn-secondary" th:text="${item.name}" th:id="'item_'+${item.id}"></button>
-                </li>
-                <li>
-                    <button class="btn btn-secondary" text="All items" th:id="allitems_0">All items</button>
-                </li>
-            </ul>
-            <br/>
-            <!--ServiceCategories-->
-            <button id="toggleServices" class="btn btn-primary">Service categories</button>
-            <ul id="serviceButtons" style="display: none">
-                <li th:each="service,iterStat:${serviceCategories}">
-                    <button class="btn btn-secondary" th:text="${service.name}" th:id="'service_'+${service.id}"></button>
-                </li>
-                <li>
-                    <button class="btn btn-secondary" th:id="allservices_0">All services</button>
-                </li>
-            </ul>
-            <!--Statuses-->
-            <button id="toggleStatuses" class="btn btn-primary">Statuses</button>
-            <ul id="statusButtons" style="display: none">
-                <li>
-                    <button class="btn btn-secondary" th:id="status_1">Available</button>
-                </li>
-                <li>
-                    <button class="btn btn-secondary" th:id="status_2">Rented</button>
-                </li>
-                <li>
-                    <button class="btn btn-secondary" th:id="status_3">Damaged</button>
-                </li>
-            </ul>
-        </aside>
-
         <div id="rentables" class="container">
-            <div class="item col ">
-                <h2>Rentables</h2>
-                <table id="datatable" class="table table-hover">
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>User</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                    </tr>
-                    <tr th:each="value,iterStat : ${rentableList}">
-                        <td class="lead" th:text="${value.name}"></td>
-                        <td class="lead" th:text="${value.description}"></td>
-                        <td class="lead" th:text="${value.user.getUsername()}"></td>
-                        <td class="lead" th:text="${value.price.getFullPrice()}"></td>
-                        <td class="lead" th:text="${value.status}"></td>
-                    </tr>
-                </table>
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="sidebar-nav-fixed">
+                        <!-- ItemCategories -->
+                        <button id="toggleItems" class="btn btn-primary">Item categories</button>
+                        <ul id="itemButtons" style="display: none">
+                            <li th:each="item,iterStat:${itemCategories}">
+                                <button class="btn btn-secondary" th:text="${item.name}" th:id="'item_'+${item.id}"></button>
+                            </li>
+                            <li>
+                                <button class="btn btn-secondary" text="All items" th:id="allitems_0">All items</button>
+                            </li>
+                        </ul>
+                        <br/>
+                        <!--ServiceCategories-->
+                        <button id="toggleServices" class="btn btn-primary">Service categories</button>
+                        <ul id="serviceButtons" style="display: none">
+                            <li th:each="service,iterStat:${serviceCategories}">
+                                <button class="btn btn-secondary" th:text="${service.name}" th:id="'service_'+${service.id}"></button>
+                            </li>
+                            <li>
+                                <button class="btn btn-secondary" th:id="allservices_0">All services</button>
+                            </li>
+                        </ul>
+                        <!--Statuses-->
+                        <button id="toggleStatuses" class="btn btn-primary">Statuses</button>
+                        <ul id="statusButtons" style="display: none">
+                            <li>
+                                <button class="btn btn-secondary" th:id="status_1">Available</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-secondary" th:id="status_2">Rented</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-secondary" th:id="status_3">Damaged</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="item col ">
+                    <h2>Rentables</h2>
+                    <table id="datatable" class="table table-hover">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>User</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr th:each="value,iterStat : ${rentableList}">
+                            <td class="lead" th:text="${value.name}"></td>
+                            <td class="lead" th:text="${value.description}"></td>
+                            <td class="lead" th:text="${value.user.getUsername()}"></td>
+                            <td class="lead" th:text="${value.price.getFullPrice()}"></td>
+                            <td class="lead" th:text="${value.status}"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.2.1.js"
