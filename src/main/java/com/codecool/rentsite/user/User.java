@@ -4,6 +4,7 @@ import com.codecool.rentsite.rentable.Rentable;
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.review.Review;
 import com.codecool.rentsite.review.UserReview;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,9 +20,11 @@ import javax.persistence.Table;
 @NamedQueries({@NamedQuery(name = "user.all", query = "SELECT r from User r"),
                @NamedQuery(name = "user.getUser", query = "SELECT u FROM User u WHERE u.username = :username")})
 public class User {
+
+    @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
+    private Long id;
     private String firstName;
     private String lastName;
     @Column(nullable = false, unique = true)
@@ -57,7 +60,7 @@ public class User {
     }
 
     //Getters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -83,7 +86,7 @@ public class User {
 
 
     //Setters
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

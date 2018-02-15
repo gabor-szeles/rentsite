@@ -29,6 +29,7 @@ public class UserDao implements UserDAOInterface {
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
+
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
