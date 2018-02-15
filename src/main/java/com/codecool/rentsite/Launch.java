@@ -8,7 +8,6 @@ import org.apache.log4j.Level;
 
 
 import static spark.Spark.*;
-import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Launch {
 
@@ -26,6 +25,14 @@ public class Launch {
         get("/", Controller::renderRentables);
         post("/filter", Controller::renderFilteredIndex);
         post("/new-item", Controller :: addNewItem);
+
+        post("/register", Controller::register);
+
+        post("/login", Controller::login);
+
+        post("/username", "application/json", Controller::checkUser);
+
+        get("/logout", Controller::logout);
 
     }
 }
