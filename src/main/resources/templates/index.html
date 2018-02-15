@@ -7,6 +7,39 @@
 
 </head>
 <body>
+        <div id="newItemModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <form action="/new-item" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"> New Item</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Name</p>
+                            <input name="name"/>
+                            <p>Description</p>
+                            <input name="description"/>
+                            <p>Price</p>
+                            <input name="price"/>
+                            <p>Type</p>
+                            <input id="itemSelected" type="radio" name="type" value="item"/>
+                            <label for="itemSelected">Item</label>
+                            <input id="serviceSelected" type="radio" name="type" value="service"/>
+                            <label for="serviceSelected">Service</label><br/>
+                            <label for="categories">Categories</label><br/>
+                            <select id="categories" name="category">
+                                <option th:each="category, iterstart: ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" type="submit">Upload</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
             <div class="navbar header">
                 <a href="/">RentSite</a>
@@ -17,6 +50,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="login" data-toggle="modal" data-target="#login_modal" href="">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="newItem" data-toggle="modal" data-target="#newItemModal" href="">Add new item</a>
                 </li>
             </ul>
         </nav>
