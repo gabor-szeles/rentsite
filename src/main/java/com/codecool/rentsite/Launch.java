@@ -31,7 +31,7 @@ public class Launch {
 
         post("/login", Controller::login);
 
-
+        post("/username", "application/json", Controller::checkUser);
 
     }
 }
