@@ -82,12 +82,27 @@ public class RentableService {
             newItem.setPrice(price);
             newItem.setItemCategory(categoryDAO.findItemCategory(Integer.parseInt(categoryId)));
             newItem.setUser(userDao.find(Integer.parseInt(userId)));
+            newItem.setStatus(Status.AVAILABLE);
 
             entityManager.getTransaction().begin();
             entityManager.persist(newItem);
             entityManager.getTransaction().commit();
+            response.redirect("/");
+            return "Item added";
         } else if (type.equals("service")){
             Service newService = new Service();
+            newService.setName(name);
+            newService.setDescription(description);
+            newService.setPrice(price);
+            newService.setServiceCategory(categoryDAO.findServiceCategory(Integer.parseInt(categoryId)));
+            newService.setUser(userDao.find(Integer.parseInt(userId)));
+            newService.setStatus(Status.AVAILABLE);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(newService);
+            entityManager.getTransaction().commit();
+            response.redirect("/");
+            return "Service added";
         }
         return "";
     }
