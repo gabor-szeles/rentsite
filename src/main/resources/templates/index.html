@@ -28,10 +28,8 @@
                             <label for="itemSelected">Item</label>
                             <input id="serviceSelected" type="radio" name="type" value="service"/>
                             <label for="serviceSelected">Service</label><br/>
-                            <label for="categories">Categories</label><br/>
-                            <select id="categories" name="category">
-                                <option th:each="category, iterstart: ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
-                            </select>
+                            <label for="categorySelect">Categories</label><br/>
+                            <select id="categorySelect" name="category"></select>
                         </div>
                         <div class="modal-footer">
                             <button class="btn" type="submit">Upload</button>
