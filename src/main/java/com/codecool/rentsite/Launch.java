@@ -25,6 +25,7 @@ public class Launch {
 
         get("/", Controller::renderRentables);
         post("/filter", Controller::renderFilteredIndex);
+        post("/new-item", Controller :: addNewItem);
 
     }
 }

@@ -42,4 +42,8 @@ public class Controller {
         return Utils.toJson(params);
     }
 
+    public static String addNewItem(Request request, Response response){
+        return rentableService.add(request, response, ENTITY_MANAGER_FACTORY.createEntityManager());
+    }
+
 }
