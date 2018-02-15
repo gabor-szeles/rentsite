@@ -1,29 +1,42 @@
 package com.codecool.rentsite.rentable;
 
+import com.codecool.rentsite.rentable.category.Category;
 import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.rentable.category.ItemCategory;
 import com.codecool.rentsite.rentable.category.ServiceCategory;
 
+import javax.persistence.EntityManager;
 import java.util.*;
+
+import com.codecool.rentsite.user.UserDao;
+import spark.Request;
+import spark.Response;
+
 
 public class RentableService {
 
     private final RentableDAO rentableDAO;
     private final CategoryDAO categoryDAO;
+    private final UserDao userDao;
 
-    public RentableService(RentableDAO rentableDAO, CategoryDAO categoryDAO) {
+    public RentableService(RentableDAO rentableDAO, CategoryDAO categoryDAO, UserDao userDao) {
         this.rentableDAO = rentableDAO;
         this.categoryDAO = categoryDAO;
+        this.userDao = userDao;
     }
 
     public Map<String, List<Rentable>> getAllRentables() {
         Map params = new HashMap();
+        List<Category> allCategories = new ArrayList<>();
         List<ItemCategory> itemCategoryList = categoryDAO.getItemCategories();
         List<ServiceCategory> serviceCategoryList = categoryDAO.getServiceCategories();
         List<Rentable> rentableList = rentableDAO.getAll();
+        allCategories.addAll(itemCategoryList);
+        allCategories.addAll(serviceCategoryList);
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
+        params.put("categories", allCategories);
         return params;
     }
 
@@ -50,5 +63,32 @@ public class RentableService {
                 break;
         }
         return resultList;
+    }
+
+    public String add(Request request, Response response, EntityManager entityManager){
+        String name = request.queryParams("name");
+        String description = request.queryParams("description");
+        String amount = request.queryParams("price");
+        String type = request.queryParams("type");
+        String categoryId = request.queryParams("category");
+        String userId = request.session().attribute("userId");
+        Price price = new Price();
+        price.setAmount(Integer.parseInt(amount));
+        price.setCurrency(Currency.getInstance("EUR"));
+        if (type.equals("item")){
+            Item newItem = new Item();
+            newItem.setName(name);
+            newItem.setDescription(description);
+            newItem.setPrice(price);
+            newItem.setItemCategory(categoryDAO.findItemCategory(Integer.parseInt(categoryId)));
+            newItem.setUser(userDao.find(Integer.parseInt(userId)));
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(newItem);
+            entityManager.getTransaction().commit();
+        } else if (type.equals("service")){
+            Service newService = new Service();
+        }
+        return "";
     }
 }
