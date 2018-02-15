@@ -24,7 +24,7 @@ public class Launch {
 
         get("/", Controller::renderRentables);
         post("/filter", Controller::renderFilteredIndex);
-        post("/new-item", Controller :: addNewItem);
+        post("/new-item", Controller::addNewItem);
 
         post("/register", Controller::register);
 
@@ -33,6 +33,10 @@ public class Launch {
         post("/username", "application/json", Controller::checkUser);
 
         get("/logout", Controller::logout);
+
+        get("/get-service-categories", Controller::getServiceCategories);
+
+        get("/get-item-categories", Controller::getItemCategories);
 
     }
 }
