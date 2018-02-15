@@ -13,11 +13,15 @@
             </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" id="registration" data-toggle="modal" data-target="#registration_modal" href="">Registration</a>
+                    <a class="nav-link" id="registration" data-toggle="modal" data-target="#registerModal" href="">Registration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="login" data-toggle="modal" data-target="#login_modal" href="">Login</a>
+                    <a class="nav-link" id="login" data-toggle="modal" data-target="#loginModal" href="">Login</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout"   href="/logout">Logout</a>
+                </li>
+
             </ul>
         </nav>
 
@@ -84,6 +88,65 @@
                 </div>
             </div>
         </div>
+        <div id="loginModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <form action="/login" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Login</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Username</p>
+                            <input name="username" id="username"/>
+                            <span id="message"></span>
+                            <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                            <p>Password</p>
+                            <input name="password" type="password" id="password"/>
+                            <span id="passMessage"></span>
+                            <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" type="submit">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="products" class="row list-group">
+            <!--<p class="lead" th:text="${value.firstName}"></p>-->
+            <div class="item col-xs-4 col-lg-4">
+                <div id="registerModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <form action="/register" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>First name</p>
+                                    <input minlength="5" required="required" name="firstname"/>
+                                    <p>Last name</p>
+                                    <input minlength="5" required="required" name="lastname"/>
+                                    <p>Username</p>
+                                    <input minlength="5" required="required" name="username"/>
+                                    <p>Password</p>
+                                    <input minlength="5" required="required" type="password" name="password"/>
+                                    <p>Email</p>
+                                    <input minlength="5" required="required" name="email"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" type="submit">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://code.jquery.com/jquery-3.2.1.js"
                 integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
                 crossorigin="anonymous"></script>
@@ -94,5 +157,7 @@
                 integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
                 crossorigin="anonymous"></script>
         <script src="/script/dom.js"></script>
+        <script src="/script/login.js"></script>
+
 </body>
 </html>

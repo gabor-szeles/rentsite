@@ -1,16 +1,14 @@
 package com.codecool.rentsite.user;
 
-import com.codecool.rentsite.user.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UserDao implements UserDAOInterface {
 
-    private EntityManager entityManager;
+    private static EntityManager entityManager;
 
     public UserDao(EntityManagerFactory emf){
         this.entityManager = emf.createEntityManager();
@@ -23,8 +21,17 @@ public class UserDao implements UserDAOInterface {
     }
 
     @Override
-    public User add() {
-        return null;
+    public void add(String username, String password, String email, String firstName, String lastName) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
     }
 
     @Override
