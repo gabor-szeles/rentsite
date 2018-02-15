@@ -7,6 +7,7 @@ import com.codecool.rentsite.user.UserDao;
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
+import org.json.JSONObject;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -45,5 +46,9 @@ public class Controller {
     public static String login(Request request, Response response){
         SessionHandling.recognizeClient(request, response);
         return USER_SERVICE.login(request, response, ENTITY_MANAGER);
+    }
+
+    public static JSONObject checkUser(Request request, Response response) {
+        return USER_SERVICE.checkUser(request,ENTITY_MANAGER);
     }
 }
