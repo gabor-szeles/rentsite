@@ -9,7 +9,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries(@NamedQuery(name = "item.all", query = "SELECT i FROM Item i "))
+@NamedQueries({
+                @NamedQuery(name = "item.all", query = "SELECT i FROM Item i "),
+                @NamedQuery(name = "item.getByItemCategory", query = "SELECT i FROM Item i WHERE i.itemCategory.id = :categoryId "),
+                @NamedQuery(name = "item.getByStatus", query = "SELECT i FROM Item i WHERE i.status = :status")
+                })
 public class Item extends Rentable {
 
     @ManyToOne

@@ -1,14 +1,11 @@
 package com.codecool.rentsite;
 
-import com.codecool.rentsite.rentable.Rentable;
-import com.codecool.rentsite.rentable.RentableDAO;
-import com.codecool.rentsite.reservation.ReservationDAO;
+import com.codecool.rentsite.rentable.*;
+import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.user.UserDao;
-import com.codecool.rentsite.reservation.Reservation;
-import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
+
 import org.json.JSONObject;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
@@ -18,37 +15,47 @@ import javax.persistence.Persistence;
 import java.util.*;
 
 public class Controller {
-    private final static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
-    private final static UserDao USER_DAO = new UserDao(ENTITY_MANAGER_FACTORY);
-    private final static UserService USER_SERVICE = new UserService(ENTITY_MANAGER_FACTORY, USER_DAO);
-    private final static EntityManager ENTITY_MANAGER = ENTITY_MANAGER_FACTORY.createEntityManager();
-    public static ModelAndView renderUsers(Request req, Response res) {
 
-        Map params = new HashMap();
-        UserDao userDao = new UserDao(ENTITY_MANAGER_FACTORY);
-        RentableDAO rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
-        ReservationDAO reservationDAO = new ReservationDAO(ENTITY_MANAGER_FACTORY);
+    private final static EntityManagerFactory ENTITY_MANAGER_FACTORY;
+    private static EntityManager entityManager;
+    private static RentableDAO rentableDAO;
+    private static CategoryDAO categoryDAO;
+    private static UserDao userDao;
+    private static RentableService rentableService;
+    private static UserService userService;
 
-        List<Reservation> reservations = reservationDAO.getAll();
-        List<User> returnValues = userDao.executeQuery();
-        List<Rentable> rentableList = rentableDAO.getAll();
+    static {
+        ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
+        entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
+        categoryDAO = new CategoryDAO(ENTITY_MANAGER_FACTORY);
+        userDao = new UserDao(ENTITY_MANAGER_FACTORY);
+        rentableService = new RentableService(rentableDAO, categoryDAO);
+        userService = new UserService(ENTITY_MANAGER_FACTORY, userDao);
+    }
 
-        params.put("userList", returnValues);
-        params.put("reservationList", reservations);
-        params.put("rentableList", rentableList);
-        return new ModelAndView(params, "/index");
+    public static String renderRentables(Request req, Response res) {
+        Map<String, List<Rentable>> params = rentableService.getAllRentables();
+        return Utils.renderTemplate(params, "index");
+    }
+
+    public static String renderFilteredIndex(Request request, Response response) {
+        String id = request.body();
+        List<Map<String, String>> params = Utils.productModel(rentableService.getUpdatedData(id));
+        return Utils.toJson(params);
     }
 
     public static String register(Request request, Response response) {
-        return USER_SERVICE.register(request, response);
+        return userService.register(request, response);
     }
 
     public static String login(Request request, Response response){
         SessionHandling.recognizeClient(request, response);
-        return USER_SERVICE.login(request, response, ENTITY_MANAGER);
+        return userService.login(request, response, entityManager);
     }
 
     public static JSONObject checkUser(Request request, Response response) {
-        return USER_SERVICE.checkUser(request,ENTITY_MANAGER);
+        return userService.checkUser(request,entityManager);
     }
+
 }
