@@ -41,4 +41,12 @@ public class UserDao implements UserDAOInterface {
         query.setParameter("username", userName);
         return query.getSingleResult();
     }
+
+    public User findById(int id) {
+        TypedQuery<User> query = entityManager.createNamedQuery("user.getUserById",User.class);
+        query.setParameter("userId", id);
+        User result = query.getSingleResult();
+        return result;
+
+    }
 }

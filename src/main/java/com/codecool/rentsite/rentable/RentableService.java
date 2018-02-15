@@ -1,20 +1,28 @@
 package com.codecool.rentsite.rentable;
 
+
 import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.rentable.category.ItemCategory;
 import com.codecool.rentsite.rentable.category.ServiceCategory;
-import sun.misc.Request;
 
+
+import javax.persistence.EntityManager;
 import java.util.*;
+
+import com.codecool.rentsite.user.UserDao;
+import spark.Response;
+
 
 public class RentableService {
 
     private final RentableDAO rentableDAO;
     private final CategoryDAO categoryDAO;
+    private final UserDao userDao;
 
-    public RentableService(RentableDAO rentableDAO, CategoryDAO categoryDAO) {
+    public RentableService(RentableDAO rentableDAO, CategoryDAO categoryDAO, UserDao userDao) {
         this.rentableDAO = rentableDAO;
         this.categoryDAO = categoryDAO;
+        this.userDao = userDao;
     }
 
     public Map<String, List<Rentable>> getAllRentables(int userId) {
@@ -52,5 +60,49 @@ public class RentableService {
                 break;
         }
         return resultList;
+    }
+
+    public String add(spark.Request request, Response response, EntityManager entityManager){
+        String name = request.queryParams("name");
+        System.out.println(request.queryParams());
+        String description = request.queryParams("description");
+        String amount = request.queryParams("price");
+        String type = request.queryParams("type");
+        String categoryId = request.queryParams("category");
+        String userId = request.session().attribute("userId");
+        Price price = new Price();
+        price.setAmount(Integer.parseInt(amount));
+        price.setCurrency(Currency.getInstance("EUR"));
+        System.out.println("categor id : " + categoryId);
+        if (type.equals("item")){
+            Item newItem = new Item();
+            newItem.setName(name);
+            newItem.setDescription(description);
+            newItem.setPrice(price);
+            newItem.setItemCategory(categoryDAO.findItemCategory(Integer.parseInt(categoryId)));
+            newItem.setUser(userDao.findById(Integer.parseInt(userId)));
+            newItem.setStatus(Status.AVAILABLE);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(newItem);
+            entityManager.getTransaction().commit();
+            response.redirect("/");
+            return "Item added";
+        } else if (type.equals("service")){
+            Service newService = new Service();
+            newService.setName(name);
+            newService.setDescription(description);
+            newService.setPrice(price);
+            newService.setServiceCategory(categoryDAO.findServiceCategory(Integer.parseInt(categoryId)));
+            newService.setUser(userDao.findById(Integer.parseInt(userId)));
+            newService.setStatus(Status.AVAILABLE);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(newService);
+            entityManager.getTransaction().commit();
+            response.redirect("/");
+            return "Service added";
+        }
+        return "";
     }
 }

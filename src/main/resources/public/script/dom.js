@@ -7,6 +7,8 @@ $(document).ready(function () {
             eventApplier.addEventToServiceToggle();
             eventApplier.addEventToFilterButtons();
             eventApplier.addEventToStatusToggle();
+            eventApplier.addEventToItemToggleInModal();
+            eventApplier.addEventToServiceToggleInModal();
         }
 
     };
@@ -27,7 +29,7 @@ $(document).ready(function () {
         },
 
         toggleStatusCategories: function () {
-           $("#statusButtons").slideToggle();
+            $("#statusButtons").slideToggle();
         },
 
         buildFilteredTable: function (response) {
@@ -49,10 +51,27 @@ $(document).ready(function () {
                         <td class="lead">${rentable.status}</td>
                     </tr>`)
             })
+        },
 
+        toggleItemCategoriesInModal: function () {
+            $("#categorySelect").empty();
+            console.log("sljekglaswkhgkjlasdgkljadrhglkadjrhgkljadhg");
+            ajax.getItemCategories();
+        },
+
+        toggleServiceCategoriesInModal: function () {
+            $("#categorySelect").empty();
+            console.log("sljekglaswkhgkjlasdgkljadrhglkadjrhgkljadhg2");
+            ajax.getServiceCategories();
+        },
+
+        buildCategoryToggle: function (response) {
+            $.each(response, function (i, category) {
+                console.log(category.name)
+                $("#categorySelect").append(`
+                    <option value=${category.id}>${category.name}</option>`)
+            })
         }
-
-
     };
 
     const eventApplier = {
@@ -70,6 +89,14 @@ $(document).ready(function () {
 
         addEventToStatusToggle: function () {
             $("#toggleStatuses").click(events.toggleStatusCategories);
+        },
+
+        addEventToItemToggleInModal: function () {
+            $("#itemSelected").click(events.toggleItemCategoriesInModal)
+        },
+
+        addEventToServiceToggleInModal: function () {
+            $("#serviceSelected").click(events.toggleServiceCategoriesInModal)
         }
 
 
@@ -86,6 +113,33 @@ $(document).ready(function () {
                 contentType: "application/json",
                 success: function (response) {
                     events.buildFilteredTable(response);
+                }
+            });
+        },
+
+        getItemCategories: function () {
+            $.ajax({
+                type: "GET",
+                url: "/get-item-categories",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    console.log("valamit amit felismerünk");
+                    events.buildCategoryToggle(response);
+                }
+            });
+
+
+        },
+
+        getServiceCategories: function () {
+            $.ajax({
+                type: "GET",
+                url: "/get-service-categories",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    events.buildCategoryToggle(response);
                 }
             });
         }

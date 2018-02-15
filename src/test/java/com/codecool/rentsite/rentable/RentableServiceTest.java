@@ -3,6 +3,7 @@ package com.codecool.rentsite.rentable;
 import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.rentable.category.ItemCategory;
 import com.codecool.rentsite.rentable.category.ServiceCategory;
+import com.codecool.rentsite.user.UserDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ class RentableServiceTest {
     private static RentableService testRentableService;
     private static RentableDAO mockRentableDao;
     private static CategoryDAO mockCategoryDao;
+    private static UserDao mockUserDao;
     private static ItemCategory mockItemCategory;
     private static ServiceCategory mockServiceCategory;
     private static Rentable mockRentable;
@@ -38,7 +40,8 @@ class RentableServiceTest {
     public static void setUp() {
         mockCategoryDao = mock(CategoryDAO.class);
         mockRentableDao = mock(RentableDAO.class);
-        testRentableService = new RentableService(mockRentableDao, mockCategoryDao);
+        mockUserDao = mock(UserDao.class);
+        testRentableService = new RentableService(mockRentableDao, mockCategoryDao, mockUserDao);
         mockItemCategory = mock(ItemCategory.class);
         mockServiceCategory = mock(ServiceCategory.class);
         mockRentable = mock(Rentable.class);

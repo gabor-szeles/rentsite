@@ -2,6 +2,7 @@ package com.codecool.rentsite;
 
 import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.rentable.category.CategoryDAO;
+import com.codecool.rentsite.rentable.category.CategoryService;
 import com.codecool.rentsite.user.UserDao;
 import com.codecool.rentsite.user.UserService;
 
@@ -12,6 +13,7 @@ import spark.Response;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.security.PublicKey;
 import java.util.*;
 
 public class Controller {
@@ -23,6 +25,7 @@ public class Controller {
     private static UserDao userDao;
     private static RentableService rentableService;
     private static UserService userService;
+    private static CategoryService categoryService;
 
     static {
         ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
@@ -30,8 +33,9 @@ public class Controller {
         rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
         categoryDAO = new CategoryDAO(ENTITY_MANAGER_FACTORY);
         userDao = new UserDao(ENTITY_MANAGER_FACTORY);
-        rentableService = new RentableService(rentableDAO, categoryDAO);
         userService = new UserService(userDao);
+        rentableService = new RentableService(rentableDAO, categoryDAO, userDao);
+        categoryService = new CategoryService(categoryDAO);
     }
 
     public static String renderRentables(Request req, Response res) {
@@ -51,6 +55,10 @@ public class Controller {
         return Utils.toJson(params);
     }
 
+    public static String addNewItem(Request request, Response response){
+        return rentableService.add(request, response, ENTITY_MANAGER_FACTORY.createEntityManager());
+    }
+
     public static String register(Request request, Response response) {
         return userService.register(request, response);
     }
@@ -66,5 +74,13 @@ public class Controller {
 
     public static String logout(Request request, Response response) {
         return userService.logoutUser(request, response);
+    }
+
+    public static String getItemCategories(Request request, Response response){
+        return Utils.toJson(categoryService.getAllItemCategories());
+    }
+
+    public static String getServiceCategories(Request request, Response response){
+        return Utils.toJson(categoryService.getAllServiceCategories());
     }
 }
