@@ -10,7 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NamedQueries(@NamedQuery(name = "itemCategory.all", query = "SELECT ic FROM ItemCategory ic "))
+@NamedQueries({
+                @NamedQuery(name = "itemCategory.all", query = "SELECT ic FROM ItemCategory ic "),
+                @NamedQuery(name= "itemCategory.getItemCategory", query = "SELECT ic FROM ItemCategory ic WHERE ic.id = :id")
+                })
 
 public class ItemCategory extends Category {
 
