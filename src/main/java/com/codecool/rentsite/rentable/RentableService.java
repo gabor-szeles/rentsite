@@ -27,16 +27,12 @@ public class RentableService {
 
     public Map<String, List<Rentable>> getAllRentables() {
         Map params = new HashMap();
-        List<Category> allCategories = new ArrayList<>();
         List<ItemCategory> itemCategoryList = categoryDAO.getItemCategories();
         List<ServiceCategory> serviceCategoryList = categoryDAO.getServiceCategories();
         List<Rentable> rentableList = rentableDAO.getAll();
-        allCategories.addAll(itemCategoryList);
-        allCategories.addAll(serviceCategoryList);
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
-        params.put("categories", allCategories);
         return params;
     }
 
@@ -67,6 +63,7 @@ public class RentableService {
 
     public String add(Request request, Response response, EntityManager entityManager){
         String name = request.queryParams("name");
+        System.out.println(request.queryParams());
         String description = request.queryParams("description");
         String amount = request.queryParams("price");
         String type = request.queryParams("type");
@@ -75,6 +72,7 @@ public class RentableService {
         Price price = new Price();
         price.setAmount(Integer.parseInt(amount));
         price.setCurrency(Currency.getInstance("EUR"));
+        System.out.println("categor id : " + categoryId);
         if (type.equals("item")){
             Item newItem = new Item();
             newItem.setName(name);
