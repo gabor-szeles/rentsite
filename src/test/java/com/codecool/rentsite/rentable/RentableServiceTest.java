@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,10 +25,13 @@ class RentableServiceTest {
     private static ItemCategory mockItemCategory;
     private static ServiceCategory mockServiceCategory;
     private static Rentable mockRentable;
+    private static List<Item> mockItemList;
     private static List<ItemCategory> itemCategoryList;
     private static List<ServiceCategory> serviceCategoryList;
     private static List<Rentable> rentableList;
-    Map<String, List<Rentable>> testMap;
+    private Map<String, List<Rentable>> testMap;
+    private static Item mockItem;
+
 
     @BeforeAll
     public static void setUp() {
@@ -43,6 +47,9 @@ class RentableServiceTest {
         serviceCategoryList.add(mockServiceCategory);
         rentableList = new ArrayList<>();
         rentableList.add(mockRentable);
+        mockItemList = new ArrayList<>();
+        mockItem = mock(Item.class);
+        mockItemList.add(mockItem);
     }
 
     @Test
@@ -73,6 +80,23 @@ class RentableServiceTest {
         testMap = testRentableService.getAllRentables();
         assertThrows(IndexOutOfBoundsException.class, () -> testMap.get("rentableList").get(0));
 
+    }
+
+    @Test
+    public void testGetUpdateDataWorksCorrectly(){
+        String testString = "item_0";
+        when(mockRentableDao.getByItemCategory(any(Integer.class))).thenReturn(mockItemList);
+        List<? extends Rentable> testItemList = testRentableService.getUpdatedData(testString);
+        assertEquals(mockItem, testItemList.get(0));
+    }
+
+
+    @Test
+    public void testGetUpdateDataThrowsError(){
+        String testString = "item_3";
+        when(mockRentableDao.getByItemCategory(2)).thenReturn(mockItemList);
+        List<? extends Rentable> testItemList = testRentableService.getUpdatedData(testString);
+        assertThrows(IndexOutOfBoundsException.class, () -> testItemList.get(0));
     }
 
 }
