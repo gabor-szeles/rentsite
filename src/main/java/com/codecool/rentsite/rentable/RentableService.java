@@ -1,15 +1,15 @@
 package com.codecool.rentsite.rentable;
 
-import com.codecool.rentsite.rentable.category.Category;
+
 import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.rentable.category.ItemCategory;
 import com.codecool.rentsite.rentable.category.ServiceCategory;
+
 
 import javax.persistence.EntityManager;
 import java.util.*;
 
 import com.codecool.rentsite.user.UserDao;
-import spark.Request;
 import spark.Response;
 
 
@@ -25,7 +25,7 @@ public class RentableService {
         this.userDao = userDao;
     }
 
-    public Map<String, List<Rentable>> getAllRentables() {
+    public Map<String, List<Rentable>> getAllRentables(int userId) {
         Map params = new HashMap();
         List<ItemCategory> itemCategoryList = categoryDAO.getItemCategories();
         List<ServiceCategory> serviceCategoryList = categoryDAO.getServiceCategories();
@@ -33,6 +33,7 @@ public class RentableService {
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
+        params.put("userId", userId);
         return params;
     }
 
@@ -61,7 +62,7 @@ public class RentableService {
         return resultList;
     }
 
-    public String add(Request request, Response response, EntityManager entityManager){
+    public String add(spark.Request request, Response response, EntityManager entityManager){
         String name = request.queryParams("name");
         System.out.println(request.queryParams());
         String description = request.queryParams("description");
@@ -79,7 +80,7 @@ public class RentableService {
             newItem.setDescription(description);
             newItem.setPrice(price);
             newItem.setItemCategory(categoryDAO.findItemCategory(Integer.parseInt(categoryId)));
-            newItem.setUser(userDao.find(Integer.parseInt(userId)));
+            newItem.setUser(userDao.findById(Integer.parseInt(userId)));
             newItem.setStatus(Status.AVAILABLE);
 
             entityManager.getTransaction().begin();
@@ -93,7 +94,7 @@ public class RentableService {
             newService.setDescription(description);
             newService.setPrice(price);
             newService.setServiceCategory(categoryDAO.findServiceCategory(Integer.parseInt(categoryId)));
-            newService.setUser(userDao.find(Integer.parseInt(userId)));
+            newService.setUser(userDao.findById(Integer.parseInt(userId)));
             newService.setStatus(Status.AVAILABLE);
 
             entityManager.getTransaction().begin();

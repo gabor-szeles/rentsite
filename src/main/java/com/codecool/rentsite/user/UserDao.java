@@ -29,16 +29,24 @@ public class UserDao implements UserDAOInterface {
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
+
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
     }
 
     @Override
-    public User find(int id) {
+    public User find(String userName) {
+        TypedQuery<User> query = entityManager.createNamedQuery("user.getUser", User.class);
+        query.setParameter("username", userName);
+        return query.getSingleResult();
+    }
+
+    public User findById(int id) {
         TypedQuery<User> query = entityManager.createNamedQuery("user.getUserById",User.class);
         query.setParameter("userId", id);
         User result = query.getSingleResult();
         return result;
+
     }
 }

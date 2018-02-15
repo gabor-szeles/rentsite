@@ -33,13 +33,19 @@ public class Controller {
         rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
         categoryDAO = new CategoryDAO(ENTITY_MANAGER_FACTORY);
         userDao = new UserDao(ENTITY_MANAGER_FACTORY);
+        userService = new UserService(userDao);
         rentableService = new RentableService(rentableDAO, categoryDAO, userDao);
-        userService = new UserService(ENTITY_MANAGER_FACTORY, userDao);
         categoryService = new CategoryService(categoryDAO);
     }
 
     public static String renderRentables(Request req, Response res) {
-        Map<String, List<Rentable>> params = rentableService.getAllRentables();
+        int userId;
+        try {
+            userId = Integer.parseInt(req.session().attribute("userId"));
+        } catch (NullPointerException|NumberFormatException e) {
+            userId = -1;
+        }
+        Map<String, List<Rentable>> params = rentableService.getAllRentables(userId);
         return Utils.renderTemplate(params, "index");
     }
 
@@ -63,7 +69,7 @@ public class Controller {
     }
 
     public static JSONObject checkUser(Request request, Response response) {
-        return userService.checkUser(request,entityManager);
+        return userService.checkUser(request);
     }
 
     public static String logout(Request request, Response response) {

@@ -7,19 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import com.sun.jndi.ldap.ext.StartTlsResponseImpl;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
-import java.util.List;
-
 public class UserService {
-    private final EntityManagerFactory ENTITY_MANAGER_FACTORY;
-    private final UserDao USER_DAO;
+        private final UserDao USER_DAO;
 
-    public UserService(EntityManagerFactory ENTITY_MANAGER_FACTORY, UserDao USER_DAO) {
-        this.ENTITY_MANAGER_FACTORY = ENTITY_MANAGER_FACTORY;
+    public UserService(UserDao USER_DAO) {
         this.USER_DAO = USER_DAO;
 
     }
@@ -72,18 +67,16 @@ public class UserService {
         return "";
     }
 
-    public JSONObject checkUser(Request request, EntityManager entityManager) {
+    public JSONObject checkUser(Request request) {
         JSONObject json = new JSONObject();
-        json.put("username_exist", userExsist(request.queryParams("username"), entityManager));
+        json.put("username_exist", userExists(request.queryParams("username")));
         return json;
     }
 
 
-    public boolean userExsist(String username,  EntityManager entityManager){
-        TypedQuery<User> query = entityManager.createNamedQuery("user.getUser", User.class);
-        query.setParameter("username", username);
+    public boolean userExists(String username){
         try {
-            User result = query.getSingleResult();
+            User result = USER_DAO.find(username);
             return false;
         } catch (javax.persistence.NoResultException e){
             System.out.println(e);

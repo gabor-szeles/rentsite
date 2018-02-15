@@ -4,6 +4,7 @@ import com.codecool.rentsite.rentable.Rentable;
 import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.review.Review;
 import com.codecool.rentsite.review.UserReview;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,8 +24,10 @@ import javax.persistence.Table;
             })
 
 public class User {
+
+    @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
     private int id;
     private String firstName;
     private String lastName;
