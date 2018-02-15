@@ -16,8 +16,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-@NamedQueries({@NamedQuery(name = "user.all", query = "SELECT r from User r"),
-               @NamedQuery(name = "user.getUser", query = "SELECT u FROM User u WHERE u.username = :username")})
+@NamedQueries({
+                @NamedQuery(name = "user.all", query = "SELECT r from User r"),
+                @NamedQuery(name = "user.getUserById", query = "SELECT u FROM User u WHERE u.id = :userId"),
+                @NamedQuery(name = "user.getUser", query = "SELECT u FROM User u WHERE u.username = :username")
+            })
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

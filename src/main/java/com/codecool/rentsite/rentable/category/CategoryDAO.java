@@ -28,4 +28,21 @@ public class CategoryDAO implements CategoryDAOInterface {
         List<ServiceCategory> serviceCategoryList = serviceCategoryQuery.getResultList();
         return serviceCategoryList;
     }
+
+    @Override
+    public ItemCategory findItemCategory(int id) {
+        TypedQuery<ItemCategory> findItemCategoryQuery = entityManager.createNamedQuery("itemCategory.getItemCategory", ItemCategory.class);
+        findItemCategoryQuery.setParameter("id", id);
+        ItemCategory itemCategory = findItemCategoryQuery.getSingleResult();
+        return itemCategory;
+    }
+
+    @Override
+    public ServiceCategory findServiceCategory(int id){
+        TypedQuery<ServiceCategory> findServiceCategory = entityManager.createNamedQuery("serviceCategory.getServiceCategory", ServiceCategory.class);
+        findServiceCategory.setParameter("id", id);
+        ServiceCategory serviceCategory = findServiceCategory.getSingleResult();
+        return serviceCategory;
+    }
+    
 }

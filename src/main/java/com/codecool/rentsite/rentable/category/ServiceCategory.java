@@ -10,7 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NamedQueries(@NamedQuery(name = "serviceCategory.all", query = "SELECT sc FROM ServiceCategory sc "))
+@NamedQueries({@NamedQuery(name = "serviceCategory.all", query = "SELECT sc FROM ServiceCategory sc "),
+               @NamedQuery(name= "serviceCategory.getServiceCategory", query = "SELECT sc FROM ServiceCategory sc WHERE sc.id = :id")
+})
 
 public class ServiceCategory extends Category {
 
