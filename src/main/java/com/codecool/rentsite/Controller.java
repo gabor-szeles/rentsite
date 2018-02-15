@@ -31,7 +31,7 @@ public class Controller {
         categoryDAO = new CategoryDAO(ENTITY_MANAGER_FACTORY);
         userDao = new UserDao(ENTITY_MANAGER_FACTORY);
         rentableService = new RentableService(rentableDAO, categoryDAO);
-        userService = new UserService(ENTITY_MANAGER_FACTORY, userDao);
+        userService = new UserService(userDao);
     }
 
     public static String renderRentables(Request req, Response res) {
@@ -55,7 +55,7 @@ public class Controller {
     }
 
     public static JSONObject checkUser(Request request, Response response) {
-        return userService.checkUser(request,entityManager);
+        return userService.checkUser(request);
     }
 
     public static String logout(Request request, Response response) {
