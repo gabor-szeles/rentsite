@@ -2,13 +2,13 @@ package com.codecool.rentsite.user;
 
 import com.codecool.rentsite.SessionHandling;
 
-import javax.jws.soap.SOAPBinding;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import com.codecool.rentsite.reservation.Reservation;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.sun.jndi.ldap.ext.StartTlsResponseImpl;
+import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
@@ -21,6 +21,7 @@ public class UserService {
     public UserService(EntityManagerFactory ENTITY_MANAGER_FACTORY, UserDao USER_DAO) {
         this.ENTITY_MANAGER_FACTORY = ENTITY_MANAGER_FACTORY;
         this.USER_DAO = USER_DAO;
+
     }
 
     public String register(Request request, Response response) {
@@ -69,5 +70,24 @@ public class UserService {
             //TODO Error mesage in modal
         }
         return "";
+    }
+
+    public JSONObject checkUser(Request request, EntityManager entityManager) {
+        JSONObject json = new JSONObject();
+        json.put("username_exist", userExsist(request.queryParams("username"), entityManager));
+        return json;
+    }
+
+
+    public boolean userExsist(String username,  EntityManager entityManager){
+        TypedQuery<User> query = entityManager.createNamedQuery("user.getUser", User.class);
+        query.setParameter("username", username);
+        try {
+            User result = query.getSingleResult();
+            return false;
+        } catch (javax.persistence.NoResultException e){
+            System.out.println(e);
+            return true;
+        }
     }
 }
