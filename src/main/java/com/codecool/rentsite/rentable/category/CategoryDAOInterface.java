@@ -6,4 +6,5 @@ public interface CategoryDAOInterface {
 
     List<ItemCategory> getItemCategories();
     List<ServiceCategory> getServiceCategories();
+    ItemCategory findItemCategory(int id);
 }
