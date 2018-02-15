@@ -90,4 +90,10 @@ public class UserService {
             return true;
         }
     }
+
+    public String logoutUser(Request request, Response response) {
+        request.session().removeAttribute("userId");
+        response.redirect("/");
+        return "";
+    }
 }

@@ -58,4 +58,7 @@ public class Controller {
         return userService.checkUser(request,entityManager);
     }
 
+    public static String logout(Request request, Response response) {
+        return userService.logoutUser(request, response);
+    }
 }
