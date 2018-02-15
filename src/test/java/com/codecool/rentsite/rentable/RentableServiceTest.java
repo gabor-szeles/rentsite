@@ -27,6 +27,7 @@ class RentableServiceTest {
     private static List<ItemCategory> itemCategoryList;
     private static List<ServiceCategory> serviceCategoryList;
     private static List<Rentable> rentableList;
+    private static int userId;
     Map<String, List<Rentable>> testMap;
 
     @BeforeAll
@@ -43,6 +44,7 @@ class RentableServiceTest {
         serviceCategoryList.add(mockServiceCategory);
         rentableList = new ArrayList<>();
         rentableList.add(mockRentable);
+        userId = 1;
     }
 
     @Test
@@ -50,7 +52,7 @@ class RentableServiceTest {
         when(mockCategoryDao.getItemCategories()).thenReturn(itemCategoryList);
         when(mockCategoryDao.getServiceCategories()).thenReturn(serviceCategoryList);
         when(mockRentableDao.getAll()).thenReturn(rentableList);
-        testMap = testRentableService.getAllRentables();
+        testMap = testRentableService.getAllRentables(userId);
         assertEquals(mockRentable, testMap.get("rentableList").get(0));
     }
 
@@ -59,7 +61,7 @@ class RentableServiceTest {
         when(mockCategoryDao.getItemCategories()).thenReturn(itemCategoryList);
         when(mockCategoryDao.getServiceCategories()).thenReturn(serviceCategoryList);
         when(mockRentableDao.getAll()).thenReturn(rentableList);
-        testMap = testRentableService.getAllRentables();
+        testMap = testRentableService.getAllRentables(userId);
         assertEquals(itemCategoryList, testMap.get("itemCategories"));
         assertEquals(serviceCategoryList, testMap.get("serviceCategories"));
     }
@@ -70,7 +72,7 @@ class RentableServiceTest {
         when(mockCategoryDao.getServiceCategories()).thenReturn(serviceCategoryList);
         List<Rentable> testEmptyList = new ArrayList<>();
         when(mockRentableDao.getAll()).thenReturn(testEmptyList);
-        testMap = testRentableService.getAllRentables();
+        testMap = testRentableService.getAllRentables(userId);
         assertThrows(IndexOutOfBoundsException.class, () -> testMap.get("rentableList").get(0));
 
     }

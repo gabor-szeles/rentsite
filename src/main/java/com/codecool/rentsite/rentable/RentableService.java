@@ -3,6 +3,7 @@ package com.codecool.rentsite.rentable;
 import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.rentable.category.ItemCategory;
 import com.codecool.rentsite.rentable.category.ServiceCategory;
+import sun.misc.Request;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public class RentableService {
         this.categoryDAO = categoryDAO;
     }
 
-    public Map<String, List<Rentable>> getAllRentables() {
+    public Map<String, List<Rentable>> getAllRentables(int userId) {
         Map params = new HashMap();
         List<ItemCategory> itemCategoryList = categoryDAO.getItemCategories();
         List<ServiceCategory> serviceCategoryList = categoryDAO.getServiceCategories();
@@ -24,6 +25,7 @@ public class RentableService {
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
+        params.put("userId", userId);
         return params;
     }
 

@@ -72,6 +72,7 @@ $(document).ready(function () {
             $("#toggleStatuses").click(events.toggleStatusCategories);
         }
 
+
     };
 
     const ajax = {

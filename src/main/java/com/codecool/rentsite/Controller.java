@@ -35,7 +35,13 @@ public class Controller {
     }
 
     public static String renderRentables(Request req, Response res) {
-        Map<String, List<Rentable>> params = rentableService.getAllRentables();
+        int userId;
+        try {
+            userId = Integer.parseInt(req.session().attribute("userId"));
+        } catch (NullPointerException|NumberFormatException e) {
+            userId = -1;
+        }
+        Map<String, List<Rentable>> params = rentableService.getAllRentables(userId);
         return Utils.renderTemplate(params, "index");
     }
 
