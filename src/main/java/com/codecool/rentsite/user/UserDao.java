@@ -29,6 +29,9 @@ public class UserDao implements UserDAOInterface {
 
     @Override
     public User find(int id) {
-        return null;
+        TypedQuery<User> query = entityManager.createNamedQuery("user.getUserById",User.class);
+        query.setParameter("userId", id);
+        User result = query.getSingleResult();
+        return result;
     }
 }
