@@ -1,6 +1,7 @@
 package com.codecool.rentsite;
 
 import com.codecool.rentsite.rentable.Rentable;
+import com.codecool.rentsite.rentable.category.Category;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import spark.ModelAndView;
@@ -42,6 +43,17 @@ public class Utils {
             currentRentables.put("price", rentable.getPrice().getFullPrice());
             currentRentables.put("status", rentable.getStatus().toString());
             model.add(currentRentables);
+        }
+        return model;
+    }
+
+    public static List<Map<String, String>> buildCategoryListModel(List<? extends Category> categories) {
+        List<Map<String, String>> model = new ArrayList<>();
+        for (Category category : categories) {
+            Map<String, String> currentCategory = new HashMap<>();
+            currentCategory.put("name", String.valueOf(category.getName()));
+            currentCategory.put("id", String.valueOf(category.getId()));
+            model.add(currentCategory);
         }
         return model;
     }
