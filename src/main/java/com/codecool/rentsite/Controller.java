@@ -30,7 +30,7 @@ public class Controller {
         rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
         categoryDAO = new CategoryDAO(ENTITY_MANAGER_FACTORY);
         userDao = new UserDao(ENTITY_MANAGER_FACTORY);
-        rentableService = new RentableService(rentableDAO, categoryDAO);
+        rentableService = new RentableService(rentableDAO, categoryDAO, userDao);
         userService = new UserService(ENTITY_MANAGER_FACTORY, userDao);
     }
 
