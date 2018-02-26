@@ -10,7 +10,7 @@ public abstract class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
     private String description;
 
     @ManyToOne
@@ -28,7 +28,7 @@ public abstract class Review {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -45,7 +45,7 @@ public abstract class Review {
         return rate;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -14,7 +14,7 @@ public abstract class Rentable {
     @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
-    private int id;
+    private Long id;
     private String name;
     private String description;
 

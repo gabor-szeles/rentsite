@@ -17,18 +17,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-@NamedQueries({
-                @NamedQuery(name = "user.all", query = "SELECT r from User r"),
-                @NamedQuery(name = "user.getUserById", query = "SELECT u FROM User u WHERE u.id = :userId"),
-                @NamedQuery(name = "user.getUser", query = "SELECT u FROM User u WHERE u.username = :username")
-            })
 
 public class User {
 
     @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
     @Column(nullable = false, unique = true)
@@ -64,7 +59,7 @@ public class User {
     }
 
     //Getters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -90,7 +85,7 @@ public class User {
 
 
     //Setters
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,35 +1,44 @@
 package com.codecool.rentsite.rentable;
 
 
-import com.codecool.rentsite.rentable.category.CategoryDAO;
-import com.codecool.rentsite.rentable.category.ItemCategory;
-import com.codecool.rentsite.rentable.category.ServiceCategory;
+import com.codecool.rentsite.rentable.category.*;
 
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
-import com.codecool.rentsite.user.UserDao;
-import spark.Response;
+import com.codecool.rentsite.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
+
+@org.springframework.stereotype.Service
 public class RentableService {
 
-    private final RentableDAO rentableDAO;
-    private final CategoryDAO categoryDAO;
-    private final UserDao userDao;
+    @Autowired
+    private ItemRepository itemRepository;
 
-    public RentableService(RentableDAO rentableDAO, CategoryDAO categoryDAO, UserDao userDao) {
-        this.rentableDAO = rentableDAO;
-        this.categoryDAO = categoryDAO;
-        this.userDao = userDao;
-    }
+    @Autowired
+    private ServiceRepository serviceRepository;
+
+    @Autowired
+    private ItemCategoryRepository itemCategoryRepository;
+
+    @Autowired
+    private ServiceCategoryRepository serviceCategoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+
+
 
     public Map<String, List<Rentable>> getAllRentables(int userId) {
         Map params = new HashMap();
-        List<ItemCategory> itemCategoryList = categoryDAO.getItemCategories();
-        List<ServiceCategory> serviceCategoryList = categoryDAO.getServiceCategories();
-        List<Rentable> rentableList = rentableDAO.getAll();
+        List<ItemCategory> itemCategoryList = itemCategoryRepository.findAll();
+        List<ServiceCategory> serviceCategoryList = serviceCategoryRepository.findAll();
+        List<Rentable> rentableList = new ArrayList<>();
+        rentableList.addAll(itemRepository.findAll());
+        rentableList.addAll(serviceRepository.findAll());
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
@@ -44,65 +53,78 @@ public class RentableService {
         int idNumber = Integer.parseInt(idParts[1]);
         switch (type) {
             case "item":
-                resultList = rentableDAO.getByItemCategory(idNumber);
+                resultList = itemRepository.findByItemCategoryId(idNumber);
                 break;
             case "allitems":
-                resultList = rentableDAO.getAllItems();
+                resultList = itemRepository.findAll();
                 break;
             case "service":
-                resultList = rentableDAO.getByServiceCategory(idNumber);
+                resultList = serviceRepository.findByServiceCategoryId(idNumber);
                 break;
             case "allservices":
-                resultList = rentableDAO.getAllServices();
+                resultList = serviceRepository.findAll();
                 break;
             case "status":
-                resultList = rentableDAO.getRented(idNumber);
+                resultList = getRented(idNumber);
                 break;
         }
         return resultList;
     }
 
-    public String add(spark.Request request, Response response, EntityManager entityManager){
-        String name = request.queryParams("name");
-        System.out.println(request.queryParams());
-        String description = request.queryParams("description");
-        String amount = request.queryParams("price");
-        String type = request.queryParams("type");
-        String categoryId = request.queryParams("category");
-        String userId = request.session().attribute("userId");
+    public void add(Map<String, String> requestParams, String userId){
+        String name = requestParams.get("name");
+        String description = requestParams.get("description");
+        String amount = requestParams.get("price");
+        String type = requestParams.get("type");
+        String categoryId = requestParams.get("category");
         Price price = new Price();
         price.setAmount(Integer.parseInt(amount));
         price.setCurrency(Currency.getInstance("EUR"));
-        System.out.println("categor id : " + categoryId);
+
         if (type.equals("item")){
             Item newItem = new Item();
             newItem.setName(name);
             newItem.setDescription(description);
             newItem.setPrice(price);
-            newItem.setItemCategory(categoryDAO.findItemCategory(Integer.parseInt(categoryId)));
-            newItem.setUser(userDao.findById(Integer.parseInt(userId)));
+            newItem.setItemCategory(itemCategoryRepository.findOne(Long.parseLong(categoryId)));
+            newItem.setUser(userRepository.findOne(Long.parseLong(userId)));
             newItem.setStatus(Status.AVAILABLE);
+            itemRepository.save(newItem);
 
-            entityManager.getTransaction().begin();
-            entityManager.persist(newItem);
-            entityManager.getTransaction().commit();
-            response.redirect("/");
-            return "Item added";
         } else if (type.equals("service")){
             Service newService = new Service();
             newService.setName(name);
             newService.setDescription(description);
             newService.setPrice(price);
-            newService.setServiceCategory(categoryDAO.findServiceCategory(Integer.parseInt(categoryId)));
-            newService.setUser(userDao.findById(Integer.parseInt(userId)));
+            newService.setServiceCategory(serviceCategoryRepository.findOne(Long.parseLong(categoryId)));
+            newService.setUser(userRepository.findOne(Long.parseLong(userId)));
             newService.setStatus(Status.AVAILABLE);
+            serviceRepository.save(newService);
 
-            entityManager.getTransaction().begin();
-            entityManager.persist(newService);
-            entityManager.getTransaction().commit();
-            response.redirect("/");
-            return "Service added";
+
         }
-        return "";
+    }
+
+    public List<Rentable> getRented(int status) {
+        List<Rentable> resultList = new ArrayList<>();
+        List<Item> itemList = new ArrayList<>();
+        List<Service> serviceList = new ArrayList<>();
+        switch (status) {
+            case 1:
+                itemList = itemRepository.findByStatus(Status.AVAILABLE);
+                serviceList = serviceRepository.findByStatus(Status.AVAILABLE);
+                break;
+            case 2:
+                itemList = itemRepository.findByStatus(Status.RENTED);
+                serviceList = serviceRepository.findByStatus(Status.RENTED);
+                break;
+            case 3:
+                itemList = itemRepository.findByStatus(Status.DAMAGED);
+                serviceList = serviceRepository.findByStatus(Status.DAMAGED);
+                break;
+        }
+        resultList.addAll(itemList);
+        resultList.addAll(serviceList);
+        return resultList;
     }
 }
