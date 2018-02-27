@@ -10,12 +10,11 @@ import java.util.Date;
 
 
 @Entity
-@NamedQueries(@NamedQuery(name = "reservation.all", query = "SELECT s FROM Reservation s "))
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Long id;
 
     @ManyToOne
     private User user;
@@ -39,11 +38,11 @@ public class Reservation {
         return this.user.getUsername();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -4,7 +4,7 @@ $(document).ready(function(){
         var username = $("#username").val();
         $.ajax({
             type:"post",
-            url:"/username",
+            url:"/api/username",
             data:{"username":username},
             success:function(data){
                 if (JSON.parse(data).username_exist) {

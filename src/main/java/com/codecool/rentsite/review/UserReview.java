@@ -8,8 +8,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries({@NamedQuery(name = "userReview.author",
-        query = "SELECT r from UserReview r WHERE r.author = :author")})
+
 public class UserReview extends Review {
 
     @ManyToOne

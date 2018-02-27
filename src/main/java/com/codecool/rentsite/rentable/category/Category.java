@@ -4,11 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "seq", initialValue = 5, allocationSize = 100)
 public abstract class Category {
-    @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    private Long id;
     private String name;
 
     public Category() {
@@ -18,11 +18,11 @@ public abstract class Category {
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

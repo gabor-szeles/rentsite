@@ -2,21 +2,25 @@ package com.codecool.rentsite.rentable.category;
 
 import com.codecool.rentsite.Utils;
 import com.codecool.rentsite.rentable.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class CategoryService {
-    private CategoryDAO categoryDAO;
 
-    public CategoryService(CategoryDAO categoryDAO) {
-        this.categoryDAO = categoryDAO;
-    }
+    @Autowired
+    private ItemCategoryRepository itemCategoryRepository;
+
+    @Autowired
+    private ServiceCategoryRepository serviceCategoryRepository;
 
     public List<Map<String, String>> getAllItemCategories(){
-        return Utils.buildCategoryListModel(categoryDAO.getItemCategories());
+        return Utils.buildCategoryListModel(itemCategoryRepository.findAll());
     }
     public List<Map<String, String>> getAllServiceCategories(){
-        return Utils.buildCategoryListModel(categoryDAO.getServiceCategories());
+        return Utils.buildCategoryListModel(serviceCategoryRepository.findAll());
     }
 }

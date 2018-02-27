@@ -112,4 +112,5 @@ src/main/resources/META-INF/drop-schema.ddl
 src/main/resources/META-INF/persistence.xml
 
 
+/src/main/resources/application.properties
 # End of https://www.gitignore.io/api/java,maven,intellij

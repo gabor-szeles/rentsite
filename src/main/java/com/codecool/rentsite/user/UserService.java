@@ -1,82 +1,63 @@
 package com.codecool.rentsite.user;
 
-import com.codecool.rentsite.SessionHandling;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
+import java.util.Map;
 
-import org.json.JSONObject;
-import spark.Request;
-import spark.Response;
-
+@Service
 public class UserService {
-        private final UserDao USER_DAO;
 
-    public UserService(UserDao USER_DAO) {
-        this.USER_DAO = USER_DAO;
+    @Autowired
+    UserRepository userRepository;
 
-    }
-
-    public String register(Request request, Response response) {
-        String username = request.queryParams("username");
-        String password = request.queryParams("password");
-        String email = request.queryParams("email");
-        String firstName = request.queryParams("firstname");
-        String lastName = request.queryParams("lastname");
+    public void register(Map<String, String> requestParams) {
+        String username = requestParams.get("username");
+        String password = requestParams.get("password");
+        String email = requestParams.get("email");
+        String firstName = requestParams.get("firstname");
+        String lastName = requestParams.get("lastname");
         if (checkRegistrationDetails(username, password, email, firstName, lastName)){
-            response.redirect("/");
-            return "u fuked up m8";
             //TODO notify the user about the issue
         }
-        SessionHandling sessionHandling = new SessionHandling(USER_DAO);
         try {
-            sessionHandling.register(username, password, email, firstName, lastName);
+            if(username.length() > 4 || password.length() > 4) {
+                User newUser = new User(firstName, lastName, username, password, email);
+                userRepository.save(newUser);
+            }
         } catch (Exception e) {
             System.out.println(e);
-            return "User already exists";
             //TODO Error message in modal
         }
-        response.redirect("/");
-        return "Registered";
+
     }
 
     public boolean checkRegistrationDetails(String username, String password, String email, String firstname, String lastname){
         return (username.length() < 4 || password.length() < 4 || email.length() < 4 || firstname.length() < 1 || lastname.length() < 2);
     }
 
-    public String login(Request request, Response response, EntityManager entityManager) {
-        String username = request.queryParams("username");
-        String password = request.queryParams("password");
-        TypedQuery<User> query = entityManager.createNamedQuery("user.getUser", User.class);
-        query.setParameter("username", username);
+    public void login(Map<String, String> requestParams, HttpSession session) {
+        String username = requestParams.get("username");
+        String password = requestParams.get("password");
         try {
-            User result = query.getSingleResult();
+            User result = userRepository.findByUsername(username);
             String id = String.valueOf(result.getId());
             if (result.getUsername().equals(username) && result.getPassword().equals(password)) {
-                request.session().attribute("userId", id);
-                response.redirect("/");
-                return "Logged in";
+                session.setAttribute("userId", id);
             }
         } catch (javax.persistence.NoResultException e) {
-            response.redirect("/");
-            return "u messed up";
             //TODO Error mesage in modal
         }
-        return "";
-    }
-
-    public JSONObject checkUser(Request request) {
-        JSONObject json = new JSONObject();
-        json.put("username_exist", userExists(request.queryParams("username")));
-        return json;
     }
 
 
     public boolean userExists(String username){
         try {
-            User result = USER_DAO.find(username);
+            User result = userRepository.findByUsername(username);
             return false;
         } catch (javax.persistence.NoResultException e){
             System.out.println(e);
@@ -84,9 +65,7 @@ public class UserService {
         }
     }
 
-    public String logoutUser(Request request, Response response) {
-        request.session().removeAttribute("userId");
-        response.redirect("/");
-        return "";
+    public void logoutUser(HttpSession session) {
+        session.removeAttribute("userId");
     }
 }

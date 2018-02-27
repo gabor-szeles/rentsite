@@ -1,86 +1,72 @@
 package com.codecool.rentsite;
 
 import com.codecool.rentsite.rentable.*;
-import com.codecool.rentsite.rentable.category.CategoryDAO;
 import com.codecool.rentsite.rentable.category.CategoryService;
-import com.codecool.rentsite.user.UserDao;
 import com.codecool.rentsite.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import org.json.JSONObject;
-import spark.Request;
-import spark.Response;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.security.PublicKey;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
+@org.springframework.stereotype.Controller
 public class Controller {
 
-    private final static EntityManagerFactory ENTITY_MANAGER_FACTORY;
-    private static EntityManager entityManager;
-    private static RentableDAO rentableDAO;
-    private static CategoryDAO categoryDAO;
-    private static UserDao userDao;
-    private static RentableService rentableService;
-    private static UserService userService;
-    private static CategoryService categoryService;
+    @Autowired
+    private RentableService rentableService;
 
-    static {
-        ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("jpaexamplePU");
-        entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        rentableDAO = new RentableDAO(ENTITY_MANAGER_FACTORY);
-        categoryDAO = new CategoryDAO(ENTITY_MANAGER_FACTORY);
-        userDao = new UserDao(ENTITY_MANAGER_FACTORY);
-        userService = new UserService(userDao);
-        rentableService = new RentableService(rentableDAO, categoryDAO, userDao);
-        categoryService = new CategoryService(categoryDAO);
-    }
+    @Autowired
+    private UserService userService;
 
-    public static String renderRentables(Request req, Response res) {
+    @Autowired
+    private CategoryService categoryService;
+
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String renderIndex(Model model, HttpSession session) {
         int userId;
         try {
-            userId = Integer.parseInt(req.session().attribute("userId"));
+            userId = Integer.parseInt(session.getAttribute("userId").toString());
         } catch (NullPointerException|NumberFormatException e) {
             userId = -1;
         }
-        Map<String, List<Rentable>> params = rentableService.getAllRentables(userId);
-        return Utils.renderTemplate(params, "index");
+        Map<String, List<Rentable>> data = rentableService.getAllRentables(userId);
+        model.addAttribute("rentableList", data.get("rentableList"));
+        model.addAttribute("itemCategories", data.get("itemCategories"));
+        model.addAttribute("serviceCategories", data.get("serviceCategories"));
+        model.addAttribute("userId", userId);
+        return "index";
     }
 
-    public static String renderFilteredIndex(Request request, Response response) {
-        String id = request.body();
-        List<Map<String, String>> params = Utils.productModel(rentableService.getUpdatedData(id));
-        return Utils.toJson(params);
+    @RequestMapping(value = "/new-item", method = RequestMethod.POST)
+    public String addNewItem(@RequestParam Map<String, String> reqPar, HttpSession session) {
+        String id = session.getAttribute("userId").toString();
+        rentableService.add(reqPar, id);
+        return "redirect:/";
     }
 
-    public static String addNewItem(Request request, Response response){
-        return rentableService.add(request, response, ENTITY_MANAGER_FACTORY.createEntityManager());
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(@RequestParam Map<String, String> reqPar) {
+        userService.register(reqPar);
+        return "redirect:/";
     }
 
-    public static String register(Request request, Response response) {
-        return userService.register(request, response);
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@RequestParam Map<String, String> reqPar, HttpSession session){
+        userService.login(reqPar, session);
+        return "redirect:/";
     }
 
-    public static String login(Request request, Response response){
-        SessionHandling.recognizeClient(request, response);
-        return userService.login(request, response, entityManager);
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        userService.logoutUser(session);
+        return "redirect:/";
     }
 
-    public static JSONObject checkUser(Request request, Response response) {
-        return userService.checkUser(request);
-    }
 
-    public static String logout(Request request, Response response) {
-        return userService.logoutUser(request, response);
-    }
 
-    public static String getItemCategories(Request request, Response response){
-        return Utils.toJson(categoryService.getAllItemCategories());
-    }
-
-    public static String getServiceCategories(Request request, Response response){
-        return Utils.toJson(categoryService.getAllServiceCategories());
-    }
 }

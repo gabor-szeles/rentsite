@@ -3,6 +3,7 @@ $(document).ready(function () {
     const dom = {
 
         init: function () {
+            console.log("loaded");
             eventApplier.addEventToItemToggle();
             eventApplier.addEventToServiceToggle();
             eventApplier.addEventToFilterButtons();
@@ -55,13 +56,11 @@ $(document).ready(function () {
 
         toggleItemCategoriesInModal: function () {
             $("#categorySelect").empty();
-            console.log("sljekglaswkhgkjlasdgkljadrhglkadjrhgkljadhg");
             ajax.getItemCategories();
         },
 
         toggleServiceCategoriesInModal: function () {
             $("#categorySelect").empty();
-            console.log("sljekglaswkhgkjlasdgkljadrhglkadjrhgkljadhg2");
             ajax.getServiceCategories();
         },
 
@@ -107,12 +106,15 @@ $(document).ready(function () {
         refreshIndex: function (id) {
             $.ajax({
                 type: "POST",
-                url: "/filter",
+                url: "/api/filter",
                 dataType: "json",
                 data: JSON.stringify(id),
                 contentType: "application/json",
                 success: function (response) {
                     events.buildFilteredTable(response);
+                },
+                error: function (response) {
+                    console.log("refreshIndex error:" + response.responseText);
                 }
             });
         },
@@ -120,7 +122,7 @@ $(document).ready(function () {
         getItemCategories: function () {
             $.ajax({
                 type: "GET",
-                url: "/get-item-categories",
+                url: "/api/get-item-categories",
                 dataType: "json",
                 contentType: "application/json",
                 success: function (response) {
@@ -135,7 +137,7 @@ $(document).ready(function () {
         getServiceCategories: function () {
             $.ajax({
                 type: "GET",
-                url: "/get-service-categories",
+                url: "/api/get-service-categories",
                 dataType: "json",
                 contentType: "application/json",
                 success: function (response) {
