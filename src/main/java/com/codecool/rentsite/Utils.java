@@ -21,6 +21,7 @@ public class Utils {
             currentRentables.put("User", rentable.getUser().getUsername());
             currentRentables.put("price", rentable.getPrice().getFullPrice());
             currentRentables.put("status", rentable.getStatus().toString());
+            currentRentables.put("id", rentable.getId().toString());
             model.add(currentRentables);
         }
         return model;
