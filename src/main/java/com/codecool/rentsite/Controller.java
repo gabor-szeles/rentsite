@@ -17,13 +17,13 @@ import java.util.*;
 public class Controller {
 
     @Autowired
-    private static RentableService rentableService;
+    private RentableService rentableService;
 
     @Autowired
-    private static UserService userService;
+    private UserService userService;
 
     @Autowired
-    private static CategoryService categoryService;
+    private CategoryService categoryService;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
