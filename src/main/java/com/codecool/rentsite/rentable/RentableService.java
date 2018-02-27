@@ -30,19 +30,21 @@ public class RentableService {
     private UserRepository userRepository;
 
 
-
+    public RentableService(ServiceRepository serviceRepository, ItemCategoryRepository itemCategoryRepository, ServiceCategoryRepository serviceCategoryRepository, UserRepository userRepository, ItemRepository itemRepository) {
+        this.serviceRepository = serviceRepository;
+        this.itemCategoryRepository = itemCategoryRepository;
+        this.serviceCategoryRepository = serviceCategoryRepository;
+        this.userRepository = userRepository;
+        this.itemRepository = itemRepository;
+    }
 
     public Map<String, List<Rentable>> getAllRentables(int userId) {
         Map params = new HashMap();
         List<ItemCategory> itemCategoryList = itemCategoryRepository.findAll();
-        System.out.println(itemCategoryList);
         List<ServiceCategory> serviceCategoryList = serviceCategoryRepository.findAll();
-        System.out.println(serviceCategoryList);
         List<Rentable> rentableList = new ArrayList<>();
         rentableList.addAll(itemRepository.findAll());
         rentableList.addAll(serviceRepository.findAll());
-        System.out.println(rentableList);
-        System.out.println(userId);
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
