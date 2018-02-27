@@ -9,11 +9,11 @@ import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "seq", initialValue = 5, allocationSize = 100)
 public abstract class Rentable {
     
-    @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private Long id;
     private String name;
     private String description;

@@ -17,12 +17,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-
+@SequenceGenerator(name = "seq", initialValue = 5, allocationSize = 100)
 public class User {
 
-    @TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen", initialValue = 5, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private Long id;
     private String firstName;
     private String lastName;
