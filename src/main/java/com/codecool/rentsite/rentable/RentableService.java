@@ -133,4 +133,12 @@ public class RentableService {
         resultList.addAll(serviceList);
         return resultList;
     }
+
+    public Rentable getRentableById(String id) {
+        Rentable result = itemRepository.findOne(Long.parseLong(id));
+        if (result == null){
+            result = serviceRepository.findOne(Long.parseLong(id));
+        }
+        return result;
+    }
 }
