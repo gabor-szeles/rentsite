@@ -5,6 +5,7 @@ import com.codecool.rentsite.rentable.category.CategoryService;
 import com.codecool.rentsite.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,6 +66,12 @@ public class Controller {
     public String logout(HttpSession session) {
         userService.logoutUser(session);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/rentable/{id}", method = RequestMethod.GET)
+    public String renderRentablePage(@PathVariable(value = "id") String id, Model model){
+        model.addAttribute("rentableDetails", rentableService.getRentableById(id));
+        return "rentableTemplate";
     }
 
 
