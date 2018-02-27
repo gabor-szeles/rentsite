@@ -68,4 +68,8 @@ public class UserService {
     public void logoutUser(HttpSession session) {
         session.removeAttribute("userId");
     }
+
+    public User getUserById(Long id){
+        return userRepository.findOne(id);
+    }
 }

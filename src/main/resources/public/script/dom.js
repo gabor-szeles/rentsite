@@ -47,7 +47,7 @@ $(document).ready(function () {
                     `<tr>
                         <td class="lead">${rentable.name}</td>
                         <td class="lead">${rentable.description}</td>
-                        <td class="lead">${rentable.User}</td>
+                        <td class="lead"><a href="/user-page/${rentable.userId}">${rentable.User}</a></td>
                         <td class="lead">${rentable.price}</td>
                         <td class="lead">${rentable.status}</td>
                     </tr>`)
