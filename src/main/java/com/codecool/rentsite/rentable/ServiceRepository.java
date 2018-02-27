@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface ServiceRepository extends JpaRepository<Service, Long> {
-    List<? extends Rentable> findByServiceCategoryId(int idNumber);
+    List<? extends Rentable> findByServiceCategoryId(long idNumber);
 
     List<Service> findByStatus(Status available);
 }

@@ -35,10 +35,14 @@ public class RentableService {
     public Map<String, List<Rentable>> getAllRentables(int userId) {
         Map params = new HashMap();
         List<ItemCategory> itemCategoryList = itemCategoryRepository.findAll();
+        System.out.println(itemCategoryList);
         List<ServiceCategory> serviceCategoryList = serviceCategoryRepository.findAll();
+        System.out.println(serviceCategoryList);
         List<Rentable> rentableList = new ArrayList<>();
         rentableList.addAll(itemRepository.findAll());
         rentableList.addAll(serviceRepository.findAll());
+        System.out.println(rentableList);
+        System.out.println(userId);
         params.put("rentableList", rentableList);
         params.put("itemCategories", itemCategoryList);
         params.put("serviceCategories", serviceCategoryList);
@@ -50,7 +54,7 @@ public class RentableService {
         List<? extends Rentable> resultList = new ArrayList<>();
         String[] idParts = id.replace("\"", "").split("_");
         String type = idParts[0];
-        int idNumber = Integer.parseInt(idParts[1]);
+        long idNumber = Long.parseLong(idParts[1]);
         switch (type) {
             case "item":
                 resultList = itemRepository.findByItemCategoryId(idNumber);
@@ -105,11 +109,11 @@ public class RentableService {
         }
     }
 
-    public List<Rentable> getRented(int status) {
+    public List<Rentable> getRented(long status) {
         List<Rentable> resultList = new ArrayList<>();
         List<Item> itemList = new ArrayList<>();
         List<Service> serviceList = new ArrayList<>();
-        switch (status) {
+        switch (Math.toIntExact(status)) {
             case 1:
                 itemList = itemRepository.findByStatus(Status.AVAILABLE);
                 serviceList = serviceRepository.findByStatus(Status.AVAILABLE);

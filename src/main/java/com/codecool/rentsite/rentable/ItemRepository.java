@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long>{
-    List<? extends Rentable> findByItemCategoryId(int idNumber);
+    List<? extends Rentable> findByItemCategoryId(long idNumber);
 
     List<Item> findByStatus(Status available);
 }
