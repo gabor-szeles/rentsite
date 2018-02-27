@@ -2,9 +2,13 @@ package com.codecool.rentsite;
 
 import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.rentable.category.CategoryService;
+import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.review.UserReview;
+import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,5 +72,20 @@ public class Controller {
     }
 
 
+    @RequestMapping(value = "/user-page/{id}", method = RequestMethod.GET)
+    public String renderUserPage(@PathVariable(value = "id") String id, Model model){
+        System.out.println("I M HEREEEEEE");
+        System.out.println("id: " + id);
+        User user = userService.getUserById(Long.parseLong(id));
+        String username = user.getUsername();
+        Set<Rentable> userItems = user.getRentableSet();
+        Set<Reservation> userReservations = user.getReservationSet();
+        Set<UserReview> userReviews = user.getRecievedReviews();
+        model.addAttribute("userName", username);
+        model.addAttribute("userItems", userItems);
+        model.addAttribute("userReservations", userReservations);
+        model.addAttribute("userReviews", userReviews);
+        return "userReview";
+    }
 
 }
