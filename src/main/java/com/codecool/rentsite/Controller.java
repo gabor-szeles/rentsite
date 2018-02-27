@@ -30,11 +30,15 @@ public class Controller {
     public String renderIndex(Model model, HttpSession session) {
         int userId;
         try {
-            userId =(int) session.getAttribute("userId");
+            userId = Integer.parseInt(session.getAttribute("userId").toString());
         } catch (NullPointerException|NumberFormatException e) {
             userId = -1;
         }
-        model.addAttribute("params", rentableService.getAllRentables(userId));
+        Map<String, List<Rentable>> data = rentableService.getAllRentables(userId);
+        model.addAttribute("rentableList", data.get("rentableList"));
+        model.addAttribute("itemCategories", data.get("itemCategories"));
+        model.addAttribute("serviceCategories", data.get("serviceCategories"));
+        model.addAttribute("userId", userId);
         return "index";
     }
 
