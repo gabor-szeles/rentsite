@@ -6,6 +6,7 @@ import com.codecool.rentsite.review.Review;
 import com.codecool.rentsite.user.User;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 
@@ -20,13 +21,13 @@ public class Reservation {
     private User user;
     @ManyToOne
     private Rentable rentable;
-    private Date rentFrom;
-    private Date rentTo;
+    private ZonedDateTime rentFrom;
+    private ZonedDateTime rentTo;
 
     @OneToOne(mappedBy = "reservation")
     private ReservationReview reservationReview;
 
-    public Reservation(User user, Date rentFrom, Date rentTo) {
+    public Reservation(User user, ZonedDateTime rentFrom, ZonedDateTime rentTo) {
         this.rentFrom = rentFrom;
         this.rentTo = rentTo;
     }
@@ -47,19 +48,19 @@ public class Reservation {
     }
 
 
-    public Date getRentFrom() {
+    public ZonedDateTime getRentFrom() {
         return rentFrom;
     }
 
-    public void setRentFrom(Date rentFrom) {
+    public void setRentFrom(ZonedDateTime rentFrom) {
         this.rentFrom = rentFrom;
     }
 
-    public Date getRentTo() {
+    public ZonedDateTime getRentTo() {
         return rentTo;
     }
 
-    public void setRentTo(Date rentTo) {
+    public void setRentTo(ZonedDateTime rentTo) {
         this.rentTo = rentTo;
     }
 
