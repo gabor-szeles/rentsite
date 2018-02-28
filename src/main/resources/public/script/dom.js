@@ -42,16 +42,29 @@ $(document).ready(function () {
                                         <th>Price</th>
                                         <th>Status</th>
                                     </tr>`);
-            $.each(response, function (i, rentable) {
-                $("#datatable").append(
-                    `<tr>
+            if(response[0].loggedInUser === "-1"){
+                $.each(response, function (i, rentable) {
+                    $("#datatable").append(
+                        `<tr>
                         <td class="lead">${rentable.name}</td>
                         <td class="lead">${rentable.description}</td>
-                        <td class="lead"><a href="/user-page/${rentable.userId}">${rentable.User}</a></td>
+                        <td class="lead">${rentable.User}</td>
                         <td class="lead">${rentable.price}</td>
                         <td class="lead">${rentable.status}</td>
                     </tr>`)
-            })
+                })
+            } else{
+                $.each(response, function (i, rentable) {
+                    $("#datatable").append(
+                        `<tr>
+                            <td class="lead">${rentable.name}</td>
+                            <td class="lead">${rentable.description}</td>
+                            <td class="lead"><a href="/user-page/${rentable.userId}">${rentable.User}</a></td>
+                            <td class="lead">${rentable.price}</td>
+                            <td class="lead">${rentable.status}</td>
+                        </tr>`)
+                })
+            }
         },
 
         toggleItemCategoriesInModal: function () {
