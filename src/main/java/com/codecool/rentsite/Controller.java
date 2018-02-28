@@ -3,6 +3,7 @@ package com.codecool.rentsite;
 import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.rentable.category.CategoryService;
 import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.review.ReviewService;
 import com.codecool.rentsite.review.UserReview;
 import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
@@ -28,6 +29,11 @@ public class Controller {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ReviewService reviewService;
+
+
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -86,7 +92,15 @@ public class Controller {
         model.addAttribute("userReservations", userReservations);
         model.addAttribute("userReviews", userReviews);
         model.addAttribute("loggedInUserId", loggedInUserId);
+        model.addAttribute("receivingReview", id);
         return "userReview";
+    }
+
+    @RequestMapping(value = "/user-review/{id}", method = RequestMethod.POST)
+    public String addUserReview(@PathVariable(value = "id") String receiverId,@RequestParam Map<String, String> reqPar, Model model, HttpSession session){
+        String writerId = session.getAttribute("userId").toString();
+        reviewService.add(reqPar, receiverId, writerId);
+        return "redirect:/user-page/" + receiverId;
     }
 
 }
