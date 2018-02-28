@@ -44,6 +44,10 @@ public class User {
         return rentableSet;
     }
 
+    public Set<Review> getWrittenReviews() {
+        return writtenReviews;
+    }
+
     @OneToMany(mappedBy = "author")
     private Set<Review> writtenReviews = new HashSet<>();
 
