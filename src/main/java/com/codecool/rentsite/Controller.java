@@ -2,6 +2,7 @@ package com.codecool.rentsite;
 
 import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.rentable.category.CategoryService;
+import com.codecool.rentsite.reservation.ReservationService;
 import com.codecool.rentsite.review.ReviewService;
 import com.codecool.rentsite.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class Controller {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private ReservationService reservationService;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -78,9 +82,8 @@ public class Controller {
 
     @RequestMapping(value = "/rent/{id}", method = RequestMethod.GET)
     public String rentItem(@PathVariable(value = "id") String id, HttpSession session) {
-        System.out.println("id "+id);
-        System.out.println(session.getAttribute("userId"));
-        return "ok";
+        reservationService.createNewReservation(id, session.getAttribute("userId").toString());
+        return "redirect:/rentable/{id}";
     }
 
 
