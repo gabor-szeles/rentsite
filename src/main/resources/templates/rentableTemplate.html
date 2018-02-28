@@ -4,10 +4,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous"></link>
-
 </head>
-<body>
 
+<body>
 <section id="navbar" th:target="this" th:include="navbar"></section>
 <section id="login-modal" th:target="this" th:include="modals"></section>
 <section id="new-item-modal" th:target="this" th:include="modals"></section>
@@ -21,13 +20,15 @@
 <h1 th:text="${rentableDetails.name}"></h1>
 <p th:text="${rentableDetails.description}"></p>
 <p th:inline="text">Price:
-    <p th:text="${rentableDetails.price.getFullPrice()}"></p>
+<p th:text="${rentableDetails.price.getFullPrice()}"></p>
 </p>
 <p th:inline="text">Status:
 <p th:text="${rentableDetails.status}"></p>
 </p>
 
-<a th:href="@{/rent/{path}(path=${rentableDetails.id})}"  class="button">I wanna rent it!</a>
+<div th:if="${userId!=-1} and ${rentableDetails.status.name()=='AVAILABLE'}">
+    <a th:href="@{/rent/{path}(path=${rentableDetails.id})}" class="button">I wanna rent it!</a>
+</div>
 
 <h2>Rentable reviews:</h2>
 <div class="item col">
