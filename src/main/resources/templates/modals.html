@@ -1,10 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"></link>
+
 </head>
 <body>
-$END$
+<section id="login-modal">
+    <div id="loginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <form action="/login" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Login</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Username</p>
+                        <input name="username" id="username"/>
+                        <span id="message"></span>
+                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                        <p>Password</p>
+                        <input name="password" type="password" id="password"/>
+                        <span id="passMessage"></span>
+                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" type="submit">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section id="new-item-modal">
+    <div id="newItemModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <form action="/new-item" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> New Item</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Name</p>
+                        <input name="name"/>
+                        <p>Description</p>
+                        <input name="description"/>
+                        <p>Price</p>
+                        <input name="price"/>
+                        <p>Type</p>
+                        <input id="itemSelected" type="radio" name="type" value="item"/>
+                        <label for="itemSelected">Item</label>
+                        <input id="serviceSelected" type="radio" name="type" value="service"/>
+                        <label for="serviceSelected">Service</label><br/>
+                        <label for="categorySelect">Categories</label><br/>
+                        <select id="categorySelect" name="category"></select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" type="submit">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section id="register-modal">
+    <div id="products" class="row list-group">
+        <!--<p class="lead" th:text="${value.firstName}"></p>-->
+        <div class="item col-xs-4 col-lg-4">
+            <div id="registerModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <form action="/register" method="post">
+                            <div class="modal-header">
+                                <h4 class="modal-title"> Register</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>First name</p>
+                                <input minlength="5" required="required" name="firstname"/>
+                                <p>Last name</p>
+                                <input minlength="5" required="required" name="lastname"/>
+                                <p>Username</p>
+                                <input minlength="5" required="required" name="username"/>
+                                <p>Password</p>
+                                <input minlength="5" required="required" type="password" name="password"/>
+                                <p>Email</p>
+                                <input minlength="5" required="required" name="email"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" type="submit">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
