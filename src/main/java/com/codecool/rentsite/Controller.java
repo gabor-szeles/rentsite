@@ -73,18 +73,19 @@ public class Controller {
 
 
     @RequestMapping(value = "/user-page/{id}", method = RequestMethod.GET)
-    public String renderUserPage(@PathVariable(value = "id") String id, Model model){
-        System.out.println("I M HEREEEEEE");
-        System.out.println("id: " + id);
+    public String renderUserPage(@PathVariable(value = "id") String id, Model model, HttpSession session){
         User user = userService.getUserById(Long.parseLong(id));
         String username = user.getUsername();
         Set<Rentable> userItems = user.getRentableSet();
+        System.out.println(userItems);
         Set<Reservation> userReservations = user.getReservationSet();
         Set<UserReview> userReviews = user.getRecievedReviews();
+        String loggedInUserId = session.getAttribute("userId").toString();
         model.addAttribute("userName", username);
         model.addAttribute("userItems", userItems);
         model.addAttribute("userReservations", userReservations);
         model.addAttribute("userReviews", userReviews);
+        model.addAttribute("loggedInUserId", loggedInUserId);
         return "userReview";
     }
 
