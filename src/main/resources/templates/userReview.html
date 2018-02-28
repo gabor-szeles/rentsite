@@ -7,6 +7,34 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
+<div id="newReviewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <form th:action="@{/user-review/{path}(path=${receivingReview})}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> New review</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Description</p>
+                    <textarea name="description"></textarea>
+                    <p>Rate</p>
+                    <select name="rate">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" type="submit">Upload</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
     <div class="navbar header">
         <a href="/">RentSite</a>
@@ -22,7 +50,7 @@
         <div>
             <ul class="navbar-nav mr-auto navbar-header">
                 <li class="nav-item">
-                    <button class="btn btn-outline-primary" id="userReview" type="button" href="/logout">Create user review</button>
+                    <button class="btn btn-outline-primary pull-right" id="userReview" type="button" data-toggle="modal" data-target="#newReviewModal">Create user review</button>
                 </li>
             </ul>
         </div>
