@@ -1,15 +1,101 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous"></link>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-    <body>
-        <p th:text="${userName}"></p>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
+    <div class="navbar header">
+        <a href="/">RentSite</a>
+    </div>
+    <div id="navbarButtons">
+        <div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id="logout"   href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="navbar-nav mr-auto navbar-header">
+                <li class="nav-item">
+                    <button class="btn btn-outline-primary" id="userReview" type="button" href="/logout">Create user review</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="rentables" class="container">
+<h1 th:text="${userName}"></h1>
 
-    </body>
+<div class="item col ">
+    <h2>Offered to rent</h2>
+    <table id="datatable" class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="value,iterStat : ${userItems}">
+            <td class="lead" th:text="${value.name}"></td>
+            <td class="lead" th:text="${value.description}"></td>
+            <td class="lead" th:text="${value.price.getFullPrice()}"></td>
+            <td class="lead" th:text="${value.status}"></td>
+        </tr>
+    </table>
+</div>
+<br>
+<div class="item col ">
+    <h2>Rented items</h2>
+    <table id="datatable" class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="value,iterStat : ${userReservations}">
+            <td class="lead" th:text="${value.getRentable().name}"></td>
+            <td class="lead" th:text="${value.getRentable().description}"></td>
+            <td class="lead" th:text="${value.getRentable().price.getFullPrice()}"></td>
+            <td class="lead" th:text="${value.getRentable().status}"></td>
+        </tr>
+    </table>
+</div>
+<br>
+<div class="item col ">
+    <h2>Received reviews</h2>
+    <table id="datatable" class="table table-hover">
+        <tr>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Rate</th>
+        </tr>
+        <tr th:each="value,iterStat : ${userReviews}">
+            <td class="lead" th:text="${value.getAuthor().getUsername()}"></td>
+            <td class="lead" th:text="${value.getDescription()}"></td>
+            <td class="lead" th:text="${value.getRate()}"></td>
+        </tr>
+    </table>
+</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="/script/dom.js"></script>
+<script src="/script/login.js"></script>
+
+</body>
 </html>
