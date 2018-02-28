@@ -29,12 +29,7 @@ public class Controller {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String renderIndex(Model model, HttpSession session) {
-        int userId;
-        try {
-            userId = Integer.parseInt(session.getAttribute("userId").toString());
-        } catch (NullPointerException|NumberFormatException e) {
-            userId = -1;
-        }
+        int userId = userService.getUserId(session);
         Map<String, List<Rentable>> data = rentableService.getAllRentables(userId);
         model.addAttribute("rentableList", data.get("rentableList"));
         model.addAttribute("itemCategories", data.get("itemCategories"));
@@ -69,11 +64,12 @@ public class Controller {
     }
 
     @RequestMapping(value = "/rentable/{id}", method = RequestMethod.GET)
-    public String renderRentablePage(@PathVariable(value = "id") String id, Model model){
+    public String renderRentablePage(@PathVariable(value = "id") String id, Model model, HttpSession session){
+        int userId = userService.getUserId(session);
+        model.addAttribute("userId", userId);
         model.addAttribute("rentableDetails", rentableService.getRentableById(id));
         return "rentableTemplate";
     }
-
 
 
 }
