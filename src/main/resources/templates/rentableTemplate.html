@@ -29,6 +29,9 @@
 <div th:if="${userId!=-1} and ${rentableDetails.status.name()=='AVAILABLE'}">
     <a th:href="@{/rent/{path}(path=${rentableDetails.id})}" class="button">I wanna rent it!</a>
 </div>
+<img th:src="${url}"/>
+<br>
+<button id="uploadButton" type="button" class="btn btn-success">Upload</button>
 
 <h2>Rentable reviews:</h2>
 <div class="item col">
@@ -52,6 +55,7 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <form th:action="@{/rentable-review/{path}(path=${rentableDetails.id})}" method="post">
+            <input type="hidden" id="picture" th:value="${rentableDetails.id}">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"> New review</h4>
@@ -91,5 +95,7 @@
         crossorigin="anonymous"></script>
 <script src="/script/dom.js"></script>
 <script src="/script/login.js"></script>
+<script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+<script src="/script/upload.js"></script>
 </body>
 </html>
