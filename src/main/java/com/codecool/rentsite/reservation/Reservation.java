@@ -23,6 +23,7 @@ public class Reservation {
     private Rentable rentable;
     private ZonedDateTime rentFrom;
     private ZonedDateTime rentTo;
+    private boolean reviewed;
 
     @OneToOne(mappedBy = "reservation")
     private ReservationReview reservationReview;
@@ -86,5 +87,13 @@ public class Reservation {
 
     public void setReservationReview(ReservationReview reservationReview) {
         this.reservationReview = reservationReview;
+    }
+
+    public boolean isReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(boolean reviewed) {
+        this.reviewed = reviewed;
     }
 }

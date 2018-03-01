@@ -34,6 +34,7 @@ public class ReservationService {
         newReservation.setRentFrom(ZonedDateTime.now());
         newReservation.setRentTo(ZonedDateTime.now().plusSeconds(5));
         rentingUser.addToReservationSet(newReservation);
+        newReservation.setReviewed(false);
         reservationRepository.save(newReservation);
         userRepository.save(rentingUser);
     }
@@ -42,5 +43,14 @@ public class ReservationService {
         List<Long> outdated = reservationRepository.findExpiredReservation(ZonedDateTime.now());
         System.out.println("scheduled list "+ outdated);
         rentableService.resetRentablesToActive(outdated);
+    }
+
+    public Reservation getReservation(int userId, String id) {
+        List<Reservation> userReservations = reservationRepository.findByRentableIdAndUserId(Long.parseLong(id), (long) userId);
+        if (userReservations.size()!=0) {
+            return userReservations.get(userReservations.size()-1);
+        } else {
+            return null;
+        }
     }
 }
