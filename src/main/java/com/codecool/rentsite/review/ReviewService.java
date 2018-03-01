@@ -41,6 +41,7 @@ public class ReviewService {
 
 
     public List<ReservationReview> getAllReviewsByRentableId(String id) {
+        System.out.println(reservationReviewRepository.findByReservationId(Long.parseLong(id)));
         return reservationReviewRepository.findByReservationId(Long.parseLong(id));
     }
 
@@ -73,14 +74,14 @@ public class ReviewService {
         reservationReview.setRate(rate);
         reservationReview.setAuthor(author);
         author.getWrittenReviews().add(reservationReview);
-        Reservation reservation = reservationRepository.findByRentableIdAndUserId(Long.parseLong(rentableID), author.getId());
-        reservationReview.setReservation(reservation);
-        reservation.setReservationReview(reservationReview);
+        List<Reservation> reservation = reservationRepository.findByRentableIdAndUserId(Long.parseLong(rentableID), author.getId());
+        reservationReview.setReservation(reservation.get(0));
+        reservation.forEach(s->s.setReservationReview(reservationReview));
         reservationReviewRepository.save(reservationReview);
         System.out.println("ok");
     }
 
     public boolean rented(int userId, String id) {
-        return (reservationRepository.findByRentableIdAndUserId(Long.parseLong(id), (long) userId)) != null;
+        return !(reservationRepository.findByRentableIdAndUserId(Long.parseLong(id), (long) userId)).isEmpty();
     }
 }
