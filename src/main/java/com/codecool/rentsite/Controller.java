@@ -4,6 +4,9 @@ import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.rentable.category.CategoryService;
 import com.codecool.rentsite.reservation.ReservationService;
 import com.codecool.rentsite.review.ReviewService;
+import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.review.UserReview;
+import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -33,6 +36,7 @@ public class Controller {
 
     @Autowired
     private ReservationService reservationService;
+
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -86,5 +90,29 @@ public class Controller {
         return "redirect:/rentable/{id}";
     }
 
+    @RequestMapping(value = "/user-page/{id}", method = RequestMethod.GET)
+    public String renderUserPage(@PathVariable(value = "id") String id, Model model, HttpSession session){
+        User user = userService.getUserById(Long.parseLong(id));
+        String username = user.getUsername();
+        Set<Rentable> userItems = user.getRentableSet();
+        System.out.println(userItems);
+        Set<Reservation> userReservations = user.getReservationSet();
+        Set<UserReview> userReviews = user.getRecievedReviews();
+        String loggedInUserId = session.getAttribute("userId").toString();
+        model.addAttribute("userName", username);
+        model.addAttribute("userItems", userItems);
+        model.addAttribute("userReservations", userReservations);
+        model.addAttribute("userReviews", userReviews);
+        model.addAttribute("loggedInUserId", loggedInUserId);
+        model.addAttribute("receivingReview", id);
+        return "userReview";
+    }
+
+    @RequestMapping(value = "/user-review/{id}", method = RequestMethod.POST)
+    public String addUserReview(@PathVariable(value = "id") String receiverId,@RequestParam Map<String, String> reqPar, Model model, HttpSession session){
+        String writerId = session.getAttribute("userId").toString();
+        reviewService.add(reqPar, receiverId, writerId);
+        return "redirect:/user-page/" + receiverId;
+    }
 
 }

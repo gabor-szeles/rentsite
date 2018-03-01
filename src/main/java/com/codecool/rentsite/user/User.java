@@ -33,8 +33,20 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Reservation> reservationSet = new HashSet<>();
 
+    public Set<Reservation> getReservationSet() {
+        return reservationSet;
+    }
+
     @OneToMany(mappedBy = "user")
     private Set<Rentable> rentableSet = new HashSet<>();
+
+    public Set<Rentable> getRentableSet() {
+        return rentableSet;
+    }
+
+    public Set<Review> getWrittenReviews() {
+        return writtenReviews;
+    }
 
     @OneToMany(mappedBy = "author")
     private Set<Review> writtenReviews = new HashSet<>();

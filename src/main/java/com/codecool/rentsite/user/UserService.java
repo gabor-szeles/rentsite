@@ -73,9 +73,14 @@ public class UserService {
         int userId;
         try {
             userId = Integer.parseInt(session.getAttribute("userId").toString());
-        } catch (NullPointerException|NumberFormatException e) {
+        } catch (NullPointerException | NumberFormatException e) {
             userId = -1;
         }
         return userId;
+    }
+    
+    public User getUserById(Long id){
+        return userRepository.findOne(id);
+
     }
 }
