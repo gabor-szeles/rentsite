@@ -109,10 +109,22 @@ public class Controller {
     }
 
     @RequestMapping(value = "/user-review/{id}", method = RequestMethod.POST)
-    public String addUserReview(@PathVariable(value = "id") String receiverId,@RequestParam Map<String, String> reqPar, Model model, HttpSession session){
+    public String addUserReview(@PathVariable(value = "id") String receiverId,
+                                @RequestParam Map<String, String> reqPar,
+                                HttpSession session){
         String writerId = session.getAttribute("userId").toString();
         reviewService.add(reqPar, receiverId, writerId);
         return "redirect:/user-page/" + receiverId;
+    }
+
+    @RequestMapping(value = "/rentable-review/{id}", method = RequestMethod.POST)
+    public String addRentableReview(@PathVariable(value = "id") String rentableID,
+                                    @RequestParam Map<String, String> reqPar,
+                                    HttpSession session) {
+        String description = reqPar.get("description");
+        int rate =Integer.parseInt(reqPar.get("rate"));
+        System.out.println("desc: "+ description+" rate "+ rate);
+        return "TODOSHIT";
     }
 
 }
