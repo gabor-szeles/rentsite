@@ -78,10 +78,16 @@ public class Controller {
     @RequestMapping(value = "/rentable/{id}", method = RequestMethod.GET)
     public String renderRentablePage(@PathVariable(value = "id") String id, Model model, HttpSession session){
         int userId = userService.getUserId(session);
+        Reservation latestReservation = reservationService.getReservation(userId, id);
         model.addAttribute("userId", userId);
         model.addAttribute("rentableDetails", rentableService.getRentableById(id));
         model.addAttribute("reviews", reviewService.getAllReviewsByRentableId(id));
         model.addAttribute("eligibleForReview", reviewService.rented(userId, id));
+        if (latestReservation!=null) {
+            model.addAttribute("reviewed", latestReservation.isReviewed());
+        } else {
+            model.addAttribute("reviewed", true);
+        }
         return "rentableTemplate";
     }
 
