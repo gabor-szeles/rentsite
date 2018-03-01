@@ -5,6 +5,7 @@ import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.reservation.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserRepository;
@@ -12,6 +13,7 @@ import com.codecool.rentsite.user.UserRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Set;
 
 @org.springframework.stereotype.Service
 public class ReviewService {
@@ -41,7 +43,12 @@ public class ReviewService {
 
 
     public List<ReservationReview> getAllReviewsByRentableId(String id) {
-        System.out.println(reservationReviewRepository.findByReservationId(Long.parseLong(id)));
+        List<ReservationReview> anyad = reservationReviewRepository.findByReservationId(Long.parseLong(id));
+        for (ReservationReview kaki:anyad
+             ) {
+            System.out.println(kaki.getAuthor());
+            System.out.println(kaki.getDescription());
+        }
         return reservationReviewRepository.findByReservationId(Long.parseLong(id));
     }
 
@@ -74,9 +81,11 @@ public class ReviewService {
         reservationReview.setRate(rate);
         reservationReview.setAuthor(author);
         author.getWrittenReviews().add(reservationReview);
-        List<Reservation> reservation = reservationRepository.findByRentableIdAndUserId(Long.parseLong(rentableID), author.getId());
-        reservationReview.setReservation(reservation.get(0));
-        reservation.forEach(s->s.setReservationReview(reservationReview));
+        List<Reservation> reservations = reservationRepository.findByRentableIdAndUserId(Long.parseLong(rentableID), author.getId());
+        Reservation reservation = reservations.get(reservations.size()-1);
+        reservationReview.setReservation(reservation);
+        reservation.setReservationReview(reservationReview);
+        reservation.setReviewed(true);
         reservationReviewRepository.save(reservationReview);
         System.out.println("ok");
     }
