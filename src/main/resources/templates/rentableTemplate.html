@@ -41,7 +41,7 @@
             <td class="lead" th:text="${value.rate}"></td>
         </tr>
     </table>
-    <div th:if="${eligibleForReview}">
+    <div th:if="${eligibleForReview} and ${!reviewed}">
         <button class="btn btn-outline-primary " id="rentableReview" type="button" data-toggle="modal" data-target="#newRentableReviewModal">Create rentable review</button>
     </div>
 
