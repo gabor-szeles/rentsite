@@ -14,4 +14,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                     "INNER JOIN r.rentable " +
                     "WHERE r.rentable.status='RENTED' AND r.rentTo<?1")
     List<Long> findExpiredReservation(ZonedDateTime currentTime);
+
+    Reservation findByRentableId(long l);
+
+    Reservation findByRentableIdAndUserId(long id, long userId);
 }

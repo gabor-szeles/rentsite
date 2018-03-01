@@ -81,6 +81,7 @@ public class Controller {
         model.addAttribute("userId", userId);
         model.addAttribute("rentableDetails", rentableService.getRentableById(id));
         model.addAttribute("reviews", reviewService.getAllReviewsByRentableId(id));
+        model.addAttribute("eligibleForReview", reviewService.rented(userId, id));
         return "rentableTemplate";
     }
 
@@ -121,10 +122,8 @@ public class Controller {
     public String addRentableReview(@PathVariable(value = "id") String rentableID,
                                     @RequestParam Map<String, String> reqPar,
                                     HttpSession session) {
-        String description = reqPar.get("description");
-        int rate =Integer.parseInt(reqPar.get("rate"));
-        System.out.println("desc: "+ description+" rate "+ rate);
-        return "TODOSHIT";
+        reviewService.addReservationReview(rentableID, reqPar, session);
+        return "redirect:/rentable/" + rentableID;
     }
 
 }

@@ -37,9 +37,8 @@ public class ReservationService {
         reservationRepository.save(newReservation);
         userRepository.save(rentingUser);
     }
-
     @Scheduled(fixedRate = 10000)
-    public void updateReservations() {
+     public void updateReservations() {
         List<Long> outdated = reservationRepository.findExpiredReservation(ZonedDateTime.now());
         System.out.println("scheduled list "+ outdated);
         rentableService.resetRentablesToActive(outdated);

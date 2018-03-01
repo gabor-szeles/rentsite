@@ -12,4 +12,8 @@ public class ReservationReview extends Review {
 
     @OneToOne
     private Reservation reservation;
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
 }
