@@ -1,27 +1,56 @@
 package com.codecool.rentsite.review;
 
+import com.codecool.rentsite.rentable.*;
+import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.reservation.ReservationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+
+import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Set;
 
-@Service
+@org.springframework.stereotype.Service
 public class ReviewService {
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReservationReviewRepository reservationReviewRepository;
+
+    @Autowired
+    private UserReviewRepository userReviewRepository;
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
 
-    public ReviewService(ReviewRepository reviewRepository, UserRepository userRepository){
-        this.reviewRepository = reviewRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
+
+    @Autowired
+    ReservationRepository reservationRepository;
+
+    public ReviewService(UserReviewRepository userReviewRepository, UserRepository userRepository){
         this.userRepository = userRepository;
+        this.userReviewRepository = userReviewRepository;
     }
 
+
+    public List<ReservationReview> getAllReviewsByRentableId(String id) {
+        List<ReservationReview> anyad = reservationReviewRepository.findByReservationId(Long.parseLong(id));
+        for (ReservationReview kaki:anyad
+             ) {
+            System.out.println(kaki.getAuthor());
+            System.out.println(kaki.getDescription());
+        }
+        return reservationReviewRepository.findByReservationId(Long.parseLong(id));
+    }
 
     public void add(Map<String, String> reqPar, String receiverId, String writerId) {
         String description = reqPar.get("description");
@@ -40,6 +69,28 @@ public class ReviewService {
         author.getWrittenReviews().add(userReview);
         receiver.getRecievedReviews().add(userReview);
 
-        reviewRepository.save(userReview);
+        userReviewRepository.save(userReview);
+    }
+
+    public void addReservationReview(String rentableID, Map<String, String> reqPar, HttpSession session) {
+        String description = reqPar.get("description");
+        int rate =Integer.parseInt(reqPar.get("rate"));
+        User author = userRepository.getOne(Long.parseLong(session.getAttribute("userId").toString()));
+        ReservationReview reservationReview = new ReservationReview();
+        reservationReview.setDescription(description);
+        reservationReview.setRate(rate);
+        reservationReview.setAuthor(author);
+        author.getWrittenReviews().add(reservationReview);
+        List<Reservation> reservations = reservationRepository.findByRentableIdAndUserId(Long.parseLong(rentableID), author.getId());
+        Reservation reservation = reservations.get(reservations.size()-1);
+        reservationReview.setReservation(reservation);
+        reservation.setReservationReview(reservationReview);
+        reservation.setReviewed(true);
+        reservationReviewRepository.save(reservationReview);
+        System.out.println("ok");
+    }
+
+    public boolean rented(int userId, String id) {
+        return !(reservationRepository.findByRentableIdAndUserId(Long.parseLong(id), (long) userId)).isEmpty();
     }
 }

@@ -7,105 +7,49 @@
 
 </head>
 <body>
-        <div id="newItemModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <form action="/new-item" method="post">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title"> New Item</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Name</p>
-                            <input name="name"/>
-                            <p>Description</p>
-                            <input name="description"/>
-                            <p>Price</p>
-                            <input name="price"/>
-                            <p>Type</p>
-                            <input id="itemSelected" type="radio" name="type" value="item"/>
-                            <label for="itemSelected">Item</label>
-                            <input id="serviceSelected" type="radio" name="type" value="service"/>
-                            <label for="serviceSelected">Service</label><br/>
-                            <label for="categorySelect">Categories</label><br/>
-                            <select id="categorySelect" name="category"></select>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" type="submit">Upload</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
-            <div class="navbar header">
-                <a href="/">RentSite</a>
-            </div>
-            <div id="navbarButtons">
-                    <div th:if="${userId==-1}">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" id="registration" data-toggle="modal" data-target="#registerModal" href="">Registration</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="login" data-toggle="modal" data-target="#loginModal" href="">Login</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div th:unless="${userId==-1}">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" id="newItem" data-toggle="modal" data-target="#newItemModal" href="">Add new item</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="logout"   href="/logout">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-            </div>
-        </nav>
 
-        <div id="rentables" class="container">
-            <div class="row">
-                <div class="col-2 ">
-                    <div class="sidebar-nav-fixed">
-                        <!-- ItemCategories -->
-                        <button id="toggleItems" class="btn btn-primary">Item categories</button>
-                        <ul id="itemButtons" style="display: none">
-                            <li th:each="item,iterStat:${itemCategories}">
-                                <button class="btn btn-secondary" th:text="${item.name}" th:id="'item_'+${item.id}"></button>
-                            </li>
-                            <li>
-                                <button class="btn btn-secondary" text="All items" th:id="allitems_0">All items</button>
-                            </li>
-                        </ul>
-                        <br/>
-                        <!--ServiceCategories-->
-                        <button id="toggleServices" class="btn btn-primary">Service categories</button>
-                        <ul id="serviceButtons" style="display: none">
-                            <li th:each="service,iterStat:${serviceCategories}">
-                                <button class="btn btn-secondary" th:text="${service.name}" th:id="'service_'+${service.id}"></button>
-                            </li>
-                            <li>
-                                <button class="btn btn-secondary" th:id="allservices_0">All services</button>
-                            </li>
-                        </ul>
-                        <!--Statuses-->
-                        <button id="toggleStatuses" class="btn btn-primary">Statuses</button>
-                        <ul id="statusButtons" style="display: none">
-                            <li>
-                                <button class="btn btn-secondary" th:id="status_1">Available</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-secondary" th:id="status_2">Rented</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-secondary" th:id="status_3">Damaged</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+<section id="index" th:target="this" th:include="navbar"></section>
+<section id="login-modal" th:target="this"  th:include="modals" ></section>
+
+<div id="rentables" class="container">
+    <div class="row">
+        <div class="col-2 ">
+            <div class="sidebar-nav-fixed">
+                <!-- ItemCategories -->
+                <button id="toggleItems" class="btn btn-primary">Item categories</button>
+                <ul id="itemButtons" style="display: none">
+                    <li th:each="item,iterStat:${itemCategories}">
+                        <button class="btn btn-secondary" th:text="${item.name}" th:id="'item_'+${item.id}"></button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" text="All items" th:id="allitems_0">All items</button>
+                    </li>
+                </ul>
+                <br/>
+                <!--ServiceCategories-->
+                <button id="toggleServices" class="btn btn-primary">Service categories</button>
+                <ul id="serviceButtons" style="display: none">
+                    <li th:each="service,iterStat:${serviceCategories}">
+                        <button class="btn btn-secondary" th:text="${service.name}"
+                                th:id="'service_'+${service.id}"></button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" th:id="allservices_0">All services</button>
+                    </li>
+                </ul>
+                <!--Statuses-->
+                <button id="toggleStatuses" class="btn btn-primary">Statuses</button>
+                <ul id="statusButtons" style="display: none">
+                    <li>
+                        <button class="btn btn-secondary" th:id="status_1">Available</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" th:id="status_2">Rented</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" th:id="status_3">Damaged</button>
+                    </li>
+                </ul>
 
                 <div class="item col ">
                     <h2>Rentables</h2>
@@ -118,7 +62,8 @@
                             <th>Status</th>
                         </tr>
                         <tr th:each="value,iterStat : ${rentableList}">
-                            <td class="lead" th:text="${value.name}"></td>
+                            <td class="lead"><a th:text="${value.name}" th:href="@{/rentable/{path}(path=${value.id})}"></a>
+                            </td>
                             <td class="lead" th:text="${value.description}"></td>
                             <div th:if="${userId==-1}">
                                 <td class="lead" th:text="${value.user.getUsername()}"></td>
@@ -133,77 +78,20 @@
                 </div>
             </div>
         </div>
-        <div id="loginModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <form action="/login" method="post">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Login</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Username</p>
-                            <input name="username" id="username"/>
-                            <span id="message"></span>
-                            <span class="focus-input100" data-placeholder="&#xe82a;"></span>
-                            <p>Password</p>
-                            <input name="password" type="password" id="password"/>
-                            <span id="passMessage"></span>
-                            <span class="focus-input100" data-placeholder="&#xe82a;"></span>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" type="submit">Login</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="products" class="row list-group">
-            <!--<p class="lead" th:text="${value.firstName}"></p>-->
-            <div class="item col-xs-4 col-lg-4">
-                <div id="registerModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <form action="/register" method="post">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"> Register</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>First name</p>
-                                    <input minlength="5" required="required" name="firstname"/>
-                                    <p>Last name</p>
-                                    <input minlength="5" required="required" name="lastname"/>
-                                    <p>Username</p>
-                                    <input minlength="5" required="required" name="username"/>
-                                    <p>Password</p>
-                                    <input minlength="5" required="required" type="password" name="password"/>
-                                    <p>Email</p>
-                                    <input minlength="5" required="required" name="email"/>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn" type="submit">Register</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
+</div>
 
-        <script src="https://code.jquery.com/jquery-3.2.1.js"
-                integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-                integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-                crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-                integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-                crossorigin="anonymous"></script>
-        <script src="/script/dom.js"></script>
-        <script src="/script/login.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="/script/dom.js"></script>
+<script src="/script/login.js"></script>
 
 </body>
 </html>

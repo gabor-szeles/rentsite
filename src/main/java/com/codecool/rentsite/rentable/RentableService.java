@@ -133,4 +133,22 @@ public class RentableService {
         resultList.addAll(serviceList);
         return resultList;
     }
+
+    public Rentable getRentableById(String id) {
+        Rentable result = itemRepository.findOne(Long.parseLong(id));
+        if (result == null){
+            result = serviceRepository.findOne(Long.parseLong(id));
+        }
+        return result;
+    }
+
+    public void resetRentablesToActive(List<Long> outdated) {
+        System.out.println("itt e");
+        System.out.println("size: "+ outdated.size());
+        for (int i = 0; i < outdated.size(); i++) {
+            System.out.println("itt is e");
+            itemRepository.refreshStatusById(outdated.get(i), Status.AVAILABLE);
+            serviceRepository.refreshStatusById(outdated.get(i), Status.AVAILABLE);
+        }
+    }
 }

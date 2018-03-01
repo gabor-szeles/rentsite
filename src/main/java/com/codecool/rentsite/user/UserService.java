@@ -69,7 +69,18 @@ public class UserService {
         session.removeAttribute("userId");
     }
 
+    public int getUserId(HttpSession session) {
+        int userId;
+        try {
+            userId = Integer.parseInt(session.getAttribute("userId").toString());
+        } catch (NullPointerException | NumberFormatException e) {
+            userId = -1;
+        }
+        return userId;
+    }
+
     public User getUserById(Long id){
         return userRepository.findOne(id);
+
     }
 }

@@ -4,58 +4,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous"></link>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css"></link>
 </head>
 <body>
-<div id="newReviewModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <form th:action="@{/user-review/{path}(path=${receivingReview})}" method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"> New review</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Description</p>
-                    <textarea name="description"></textarea>
-                    <p>Rate</p>
-                    <select name="rate">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" type="submit">Upload</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
-    <div class="navbar header">
-        <a href="/">RentSite</a>
-    </div>
-    <div id="navbarButtons">
-        <div>
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" id="logout"   href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <ul class="navbar-nav mr-auto navbar-header">
-                <li class="nav-item">
-                    <button class="btn btn-outline-primary pull-right" id="userReview" type="button" data-toggle="modal" data-target="#newReviewModal">Create user review</button>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<section id="new-user-review" th:target="this" th:include="modals"></section>
+<section id="user-review" th:target="this" th:include="reviewNavbar"></section>
 <div id="rentables" class="container">
 <h1 th:text="${userName}"></h1>
 
@@ -94,7 +47,7 @@
         </tr>
     </table>
 </div>
-<br>
+<br></br>
 <div class="item col ">
     <h2>Received reviews</h2>
     <table id="datatable" class="table table-hover">

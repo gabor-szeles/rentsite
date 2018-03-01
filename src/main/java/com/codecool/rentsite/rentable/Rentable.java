@@ -85,4 +85,20 @@ public abstract class Rentable {
     public void setPrice(Price price) {
         this.price = price;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Reservation> getReservationSet() {
+        return reservationSet;
+    }
+
+    public void setReservationSet(Set<Reservation> reservationSet) {
+        this.reservationSet = reservationSet;
+    }
 }

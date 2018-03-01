@@ -127,4 +127,8 @@ public class User {
     public void setRecievedReviews(Set<UserReview> recievedReviews) {
         this.recievedReviews = recievedReviews;
     }
+
+    public void addToReservationSet(Reservation reservation) {
+        this.reservationSet.add(reservation);
+    }
 }

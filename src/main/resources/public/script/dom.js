@@ -46,7 +46,7 @@ $(document).ready(function () {
                 $.each(response, function (i, rentable) {
                     $("#datatable").append(
                         `<tr>
-                        <td class="lead">${rentable.name}</td>
+                        <td class="lead"><a href="/rentable/${rentable.id}">${rentable.name}</a></td>
                         <td class="lead">${rentable.description}</td>
                         <td class="lead">${rentable.User}</td>
                         <td class="lead">${rentable.price}</td>
@@ -57,7 +57,7 @@ $(document).ready(function () {
                 $.each(response, function (i, rentable) {
                     $("#datatable").append(
                         `<tr>
-                            <td class="lead">${rentable.name}</td>
+                            <td class="lead"><a href="/rentable/${rentable.id}">${rentable.name}</a></td>
                             <td class="lead">${rentable.description}</td>
                             <td class="lead"><a href="/user-page/${rentable.userId}">${rentable.User}</a></td>
                             <td class="lead">${rentable.price}</td>

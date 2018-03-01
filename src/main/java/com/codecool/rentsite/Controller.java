@@ -2,8 +2,9 @@ package com.codecool.rentsite;
 
 import com.codecool.rentsite.rentable.*;
 import com.codecool.rentsite.rentable.category.CategoryService;
-import com.codecool.rentsite.reservation.Reservation;
+import com.codecool.rentsite.reservation.ReservationService;
 import com.codecool.rentsite.review.ReviewService;
+import com.codecool.rentsite.reservation.Reservation;
 import com.codecool.rentsite.review.UserReview;
 import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
@@ -33,17 +34,14 @@ public class Controller {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private ReservationService reservationService;
 
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String renderIndex(Model model, HttpSession session) {
-        int userId;
-        try {
-            userId = Integer.parseInt(session.getAttribute("userId").toString());
-        } catch (NullPointerException|NumberFormatException e) {
-            userId = -1;
-        }
+        int userId = userService.getUserId(session);
         Map<String, List<Rentable>> data = rentableService.getAllRentables(userId);
         model.addAttribute("rentableList", data.get("rentableList"));
         model.addAttribute("itemCategories", data.get("itemCategories"));
@@ -77,6 +75,27 @@ public class Controller {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/rentable/{id}", method = RequestMethod.GET)
+    public String renderRentablePage(@PathVariable(value = "id") String id, Model model, HttpSession session){
+        int userId = userService.getUserId(session);
+        Reservation latestReservation = reservationService.getReservation(userId, id);
+        model.addAttribute("userId", userId);
+        model.addAttribute("rentableDetails", rentableService.getRentableById(id));
+        model.addAttribute("reviews", reviewService.getAllReviewsByRentableId(id));
+        model.addAttribute("eligibleForReview", reviewService.rented(userId, id));
+        if (latestReservation!=null) {
+            model.addAttribute("reviewed", latestReservation.isReviewed());
+        } else {
+            model.addAttribute("reviewed", true);
+        }
+        return "rentableTemplate";
+    }
+
+    @RequestMapping(value = "/rent/{id}", method = RequestMethod.GET)
+    public String rentItem(@PathVariable(value = "id") String id, HttpSession session) {
+        reservationService.createNewReservation(id, session.getAttribute("userId").toString());
+        return "redirect:/rentable/{id}";
+    }
 
     @RequestMapping(value = "/user-page/{id}", method = RequestMethod.GET)
     public String renderUserPage(@PathVariable(value = "id") String id, Model model, HttpSession session){
@@ -97,10 +116,20 @@ public class Controller {
     }
 
     @RequestMapping(value = "/user-review/{id}", method = RequestMethod.POST)
-    public String addUserReview(@PathVariable(value = "id") String receiverId,@RequestParam Map<String, String> reqPar, Model model, HttpSession session){
+    public String addUserReview(@PathVariable(value = "id") String receiverId,
+                                @RequestParam Map<String, String> reqPar,
+                                HttpSession session){
         String writerId = session.getAttribute("userId").toString();
         reviewService.add(reqPar, receiverId, writerId);
         return "redirect:/user-page/" + receiverId;
+    }
+
+    @RequestMapping(value = "/rentable-review/{id}", method = RequestMethod.POST)
+    public String addRentableReview(@PathVariable(value = "id") String rentableID,
+                                    @RequestParam Map<String, String> reqPar,
+                                    HttpSession session) {
+        reviewService.addReservationReview(rentableID, reqPar, session);
+        return "redirect:/rentable/" + rentableID;
     }
 
 }
