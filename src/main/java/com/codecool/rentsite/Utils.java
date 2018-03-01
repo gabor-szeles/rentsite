@@ -12,7 +12,7 @@ public class Utils {
 
 
 
-    public static List<Map<String, String>> productModel(List<? extends Rentable> rentables) {
+    public static List<Map<String, String>> productModel(List<? extends Rentable> rentables, String loggedInUser) {
         List<Map<String, String>> model = new ArrayList<>();
         for (Rentable rentable : rentables) {
             Map<String, String> currentRentables = new HashMap<>();
@@ -21,6 +21,8 @@ public class Utils {
             currentRentables.put("User", rentable.getUser().getUsername());
             currentRentables.put("price", rentable.getPrice().getFullPrice());
             currentRentables.put("status", rentable.getStatus().toString());
+            currentRentables.put("userId", rentable.getUser().getId().toString());
+            currentRentables.put("loggedInUser", loggedInUser);
             model.add(currentRentables);
         }
         return model;

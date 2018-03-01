@@ -120,7 +120,12 @@
                         <tr th:each="value,iterStat : ${rentableList}">
                             <td class="lead" th:text="${value.name}"></td>
                             <td class="lead" th:text="${value.description}"></td>
-                            <td class="lead" th:text="${value.user.getUsername()}"></td>
+                            <div th:if="${userId==-1}">
+                                <td class="lead" th:text="${value.user.getUsername()}"></td>
+                            </div>
+                            <div th:unless="${userId==-1}">
+                                <td class="lead" ><a th:text="${value.user.getUsername()}" th:href="@{/user-page/{path}(path=${value.user.getId()})}"></a></td>
+                            </div>
                             <td class="lead" th:text="${value.price.getFullPrice()}"></td>
                             <td class="lead" th:text="${value.status}"></td>
                         </tr>

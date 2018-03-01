@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +32,20 @@ public class ControllerAPI {
     CategoryService categoryService;
 
     @PostMapping("/api/filter")
-    public ResponseEntity renderFilteredIndex(HttpServletRequest request) {
+    public ResponseEntity renderFilteredIndex(HttpServletRequest request, HttpSession session) {
         String id = null;
+        String loggedInUser;
         try {
             id = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<Map<String, String>> params = Utils.productModel(rentableService.getUpdatedData(id));
+        try {
+            loggedInUser = session.getAttribute("userId").toString();
+        } catch (NullPointerException e){
+            loggedInUser = "-1";
+        }
+        List<Map<String, String>> params = Utils.productModel(rentableService.getUpdatedData(id), loggedInUser);
         return new ResponseEntity(params, HttpStatus.OK);
     }
 
