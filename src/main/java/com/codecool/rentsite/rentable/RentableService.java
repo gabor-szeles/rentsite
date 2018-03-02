@@ -151,4 +151,28 @@ public class RentableService {
             serviceRepository.refreshStatusById(outdated.get(i), Status.AVAILABLE);
         }
     }
+
+    public void updateRentableUrl(String id, String url){
+        if (itemRepository.findOne(Long.parseLong(id)) == null){
+            Service updatedService = serviceRepository.findOne(Long.parseLong(id));
+            updatedService.setUrl(url);
+            serviceRepository.save(updatedService);
+        } else {
+            Item updatedItem = itemRepository.findOne(Long.parseLong(id));
+            updatedItem.setUrl(url);
+            itemRepository.save(updatedItem);
+        }
+    }
+
+    public String getRentableUrl(String id){
+        if (itemRepository.findOne(Long.parseLong(id)) == null){
+            Service updatedService = serviceRepository.findOne(Long.parseLong(id));
+            return updatedService.getUrl();
+        } else {
+            Item updatedItem = itemRepository.findOne(Long.parseLong(id));
+            return updatedItem.getUrl();
+        }
+    }
+
+
 }

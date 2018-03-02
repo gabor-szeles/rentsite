@@ -10,10 +10,7 @@ import com.codecool.rentsite.user.User;
 import com.codecool.rentsite.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
@@ -82,6 +79,7 @@ public class Controller {
         model.addAttribute("userId", userId);
         model.addAttribute("rentableDetails", rentableService.getRentableById(id));
         model.addAttribute("reviews", reviewService.getAllReviewsByRentableId(id));
+        model.addAttribute("url", rentableService.getRentableUrl(id));
         model.addAttribute("eligibleForReview", reviewService.rented(userId, id));
         if (latestReservation!=null) {
             model.addAttribute("reviewed", latestReservation.isReviewed());
@@ -130,6 +128,14 @@ public class Controller {
                                     HttpSession session) {
         reviewService.addReservationReview(rentableID, reqPar, session);
         return "redirect:/rentable/" + rentableID;
+    }
+
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    public String handleFileUpload(@RequestBody Map<String, String> fileData) {
+        String itemOrServiceId = fileData.get("id");
+        String pictureUrl = fileData.get("url");
+        rentableService.updateRentableUrl(itemOrServiceId, pictureUrl);
+        return "redirect:/rentable/" + itemOrServiceId;
     }
 
 }

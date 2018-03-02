@@ -17,18 +17,19 @@ public abstract class Rentable {
     private Long id;
     private String name;
     private String description;
+    private String url;
 
     @ManyToOne
     private User user;
 
     @ManyToMany(mappedBy = "rentableSet")
     private Set<Tag> tagSet = new HashSet<>();
+
     @AttributeOverrides({
             @AttributeOverride(name = "amount", column = @Column(name = "price")),
             @AttributeOverride(name = "currency", column = @Column(name = "currency"))
     })
     private Price price;
-
     public Status getStatus() {
         return status;
     }
@@ -48,6 +49,14 @@ public abstract class Rentable {
         this.user = user;
         this.price = price;
         this.status = Status.AVAILABLE;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Rentable() {
