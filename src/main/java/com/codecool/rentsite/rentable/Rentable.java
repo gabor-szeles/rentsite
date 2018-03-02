@@ -102,4 +102,12 @@ public abstract class Rentable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Set<Reservation> getReservationSet() {
+        return reservationSet;
+    }
+
+    public void setReservationSet(Set<Reservation> reservationSet) {
+        this.reservationSet = reservationSet;
+    }
 }

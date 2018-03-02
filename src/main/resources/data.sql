@@ -25,9 +25,9 @@ INSERT INTO tag_rentable_set VALUES (4, 3);
 INSERT INTO tag_rentable_set VALUES (4, 4);
 INSERT INTO tag_rentable_set VALUES (4, 2);
 
-INSERT INTO reservation VALUES (1, '2017-01-01', '2017-02-01', 4, 2);
-INSERT INTO reservation VALUES (2, '2017-01-01', '2017-02-01', 2, 3);
-INSERT INTO reservation VALUES (3, '2017-01-01', '2017-02-01', 3, 4);
+INSERT INTO reservation VALUES (1, '2017-01-01', '2017-02-01', FALSE, 4, 2);
+INSERT INTO reservation VALUES (2, '2017-01-01', '2017-02-01', FALSE, 2,  3 );
+INSERT INTO reservation VALUES (3, '2017-01-01', '2017-02-01',FALSE, 3,  4  );
 
 INSERT INTO user_review VALUES (1, 'Its great user', 5, 1, 2);
 INSERT INTO user_review VALUES (2, 'Is okay', 3, 2, 3);
