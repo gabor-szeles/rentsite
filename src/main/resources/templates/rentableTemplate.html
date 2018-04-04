@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"></link>
+</head>
+
+<body>
+<section id="navbar" th:target="this" th:include="navbar"></section>
+<section id="login-modal" th:target="this" th:include="modals"></section>
+
+<small th:inline="text">Added by:
+    <strong th:text="${rentableDetails.user.getUsername()}"></strong>
+</small>
+
+<h1 th:text="${rentableDetails.name}"></h1>
+<p th:text="${rentableDetails.description}"></p>
+<p th:inline="text">Price:
+<p th:text="${rentableDetails.price.getFullPrice()}"></p>
+</p>
+<p th:inline="text">Status:
+<p th:text="${rentableDetails.status}"></p>
+</p>
+
+<div th:if="${userId!=-1} and ${rentableDetails.status.name()=='AVAILABLE'}">
+    <a th:href="@{/rent/{path}(path=${rentableDetails.id})}" class="button">I wanna rent it!</a>
+</div>
+<img th:src="${url}"/>
+<br>
+<button id="uploadButton" type="button" class="btn btn-success">Upload</button>
+
+<h2>Rentable reviews:</h2>
+<div class="item col">
+    <table class="table table-hover">
+        <tr>
+            <th>Author</th>
+            <th>Review</th>
+            <th>Rating</th>
+        </tr>
+        <tr th:each="value,iterStat : ${reviews}">
+            <td class="lead" th:text="${value.author.getUsername()}"></td>
+            <td class="lead" th:text="${value.description}"></td>
+            <td class="lead" th:text="${value.rate}"></td>
+        </tr>
+    </table>
+    <div th:if="${eligibleForReview} and ${!reviewed}">
+        <button class="btn btn-outline-primary " id="rentableReview" type="button" data-toggle="modal" data-target="#newRentableReviewModal">Create rentable review</button>
+    </div>
+
+</div>
+
+<div id="newRentableReviewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <form th:action="@{/rentable-review/{path}(path=${rentableDetails.id})}" method="post">
+            <input type="hidden" id="picture" th:value="${rentableDetails.id}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> New review</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Description</p>
+                    <textarea name="description"></textarea>
+                    <p>Rate</p>
+                    <select name="rate">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" type="submit">Upload</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<a href="/">Back to index page</a>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="/script/dom.js"></script>
+<script src="/script/login.js"></script>
+<script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+<script src="/script/upload.js"></script>
+</body>
+</html>

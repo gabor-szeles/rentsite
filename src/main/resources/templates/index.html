@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"></link>
+
+</head>
+<body>
+
+<section id="index" th:target="this" th:include="navbar"></section>
+<section id="login-modal" th:target="this"  th:include="modals" ></section>
+
+<div id="rentables" class="container">
+    <div class="row">
+        <div class="col-2 ">
+            <div class="sidebar-nav-fixed">
+                <!-- ItemCategories -->
+                <button id="toggleItems" class="btn btn-primary">Item categories</button>
+                <ul id="itemButtons" style="display: none">
+                    <li th:each="item,iterStat:${itemCategories}">
+                        <button class="btn btn-secondary" th:text="${item.name}" th:id="'item_'+${item.id}"></button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" text="All items" th:id="allitems_0">All items</button>
+                    </li>
+                </ul>
+                <br/>
+                <!--ServiceCategories-->
+                <button id="toggleServices" class="btn btn-primary">Service categories</button>
+                <ul id="serviceButtons" style="display: none">
+                    <li th:each="service,iterStat:${serviceCategories}">
+                        <button class="btn btn-secondary" th:text="${service.name}"
+                                th:id="'service_'+${service.id}"></button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" th:id="allservices_0">All services</button>
+                    </li>
+                </ul>
+                <!--Statuses-->
+                <button id="toggleStatuses" class="btn btn-primary">Statuses</button>
+                <ul id="statusButtons" style="display: none">
+                    <li>
+                        <button class="btn btn-secondary" th:id="status_1">Available</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" th:id="status_2">Rented</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-secondary" th:id="status_3">Damaged</button>
+                    </li>
+                </ul>
+
+                <div class="item col ">
+                    <h2>Rentables</h2>
+                    <table id="datatable" class="table table-hover">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>User</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr th:each="value,iterStat : ${rentableList}">
+                            <td class="lead"><a th:text="${value.name}" th:href="@{/rentable/{path}(path=${value.id})}"></a>
+                            </td>
+                            <td class="lead" th:text="${value.description}"></td>
+                            <div th:if="${userId==-1}">
+                                <td class="lead" th:text="${value.user.getUsername()}"></td>
+                            </div>
+                            <div th:unless="${userId==-1}">
+                                <td class="lead" ><a th:text="${value.user.getUsername()}" th:href="@{/user-page/{path}(path=${value.user.getId()})}"></a></td>
+                            </div>
+                            <td class="lead" th:text="${value.price.getFullPrice()}"></td>
+                            <td class="lead" th:text="${value.status}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="/script/dom.js"></script>
+<script src="/script/login.js"></script>
+
+</body>
+</html>
